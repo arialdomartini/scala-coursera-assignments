@@ -21,7 +21,23 @@ object Main {
   /**
    * Exercise 2
    */
-    def balance(chars: List[Char]): Boolean = ???
+    def balance(chars: List[Char]): Boolean = {
+      def getWeight(c: Char): Int = {
+        val weight = Map( 
+          '(' -> 1, 
+          ')' -> -1 
+        )
+        if(weight isDefinedAt c) weight(c) else 0 
+      }
+      
+      def balanceIter(chars: List[Char], n: Integer): Boolean = {
+        if(chars.isEmpty) n == 0
+        else if(n<0) false
+        else balanceIter(chars.tail, n + getWeight(chars.head))
+      }
+
+      balanceIter(chars, 0)
+    }
   
   /**
    * Exercise 3
