@@ -100,13 +100,7 @@ object FunSets {
    * Returns a set transformed by applying `f` to each element of `s`.
    */
     def map(s: Set, f: Int => Int): Set = {
-      def create(a: Int): Set = {
-        if(a > bound) e => false
-        else {
-          val newSet = (e: Int) => contains(s, a) && e == f(a)
-          union(newSet, create(a + 1))  
-        }
-      }
+      def create(a: Int): Set = if(a > bound) e => false else union((e: Int) => contains(s, a) && e == f(a), create(a + 1))
       create(-bound)
     }
 
