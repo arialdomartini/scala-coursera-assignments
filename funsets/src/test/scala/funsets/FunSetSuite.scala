@@ -135,4 +135,17 @@ class FunSetSuite extends FunSuite {
     }
   }
 
+  test("diff(s, t) returns a set with elements that are in s and not are present in t") {
+    new TestSets {
+      val s = union(s1, s2)
+      val t = union(s1, s3)
+
+      val actual = diff(s, t)
+
+      assert(contains(actual, 1) === false)
+      assert(contains(actual, 2) === true)
+      assert(contains(actual, 3) === false)
+    }
+  }
+
 }
