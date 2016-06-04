@@ -10,7 +10,8 @@ import org.scalatest.junit.JUnitRunner
 class PascalSuite extends FunSuite {
   import Main.pascal
   test("pascal: prove") {
-      assert(pascal(0,0) === 1)
+ 
+     assert(pascal(0,0) === 1)
 
       assert(pascal(0,1) === 1)
       assert(pascal(1,1) === 1)
