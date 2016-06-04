@@ -86,11 +86,7 @@ object FunSets {
     def exists(s: Set, p: Int => Boolean): Boolean = {
       def evalSingle(a: Int): Boolean = {
         if(a > bound) false
-        else {
-          val u = singletonSet(a)
-          val int = intersect(s, u)
-          forall(int, p) || evalSingle(a + 1)
-        }
+        else forall(intersect(s, singletonSet(a)), p) || evalSingle(a + 1)
       }
       evalSingle(-bound)
     }
