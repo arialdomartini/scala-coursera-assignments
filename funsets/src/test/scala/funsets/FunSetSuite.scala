@@ -59,7 +59,6 @@ class FunSetSuite extends FunSuite {
     assert(contains(x => negativeNumbers(x), -100) === true)
   }
 
-/*
 
   /**
    * When writing tests, one would often like to re-use certain values for multiple
@@ -105,9 +104,11 @@ class FunSetSuite extends FunSuite {
        * the test fails. This helps identifying which assertion failed.
        */
       assert(contains(s1, 1), "Singleton")
+      assert(contains(s2, 2), "Singleton")
+      assert(contains(s3, 3), "Singleton")
     }
   }
-
+/*
   test("union contains all elements of each set") {
     new TestSets {
       val s = union(s1, s2)
