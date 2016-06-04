@@ -52,7 +52,14 @@ class FunSetSuite extends FunSuite {
 
   test("contains is implemented") {
     assert(contains(x => true, 100))
+    def negativeNumbers(x: Int) = if(x<0) true else false
+    assert(contains(x => negativeNumbers(x), 100) === false)
+    assert(contains(x => negativeNumbers(x), 0) === false)
+    assert(contains(x => negativeNumbers(x), -1) === true)
+    assert(contains(x => negativeNumbers(x), -100) === true)
   }
+
+/*
 
   /**
    * When writing tests, one would often like to re-use certain values for multiple
@@ -110,5 +117,5 @@ class FunSetSuite extends FunSuite {
     }
   }
 
-
+*/
 }

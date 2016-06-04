@@ -21,7 +21,7 @@ object FunSets {
    */
     def singletonSet(elem: Int): Set = ???
   
-
+/*
   /**
    * Returns the union of the two given sets,
    * the sets of all elements that are in either `s` or `t`.
@@ -62,7 +62,7 @@ object FunSets {
     }
     iter(???)
   }
-  
+
   /**
    * Returns whether there exists a bounded integer within `s`
    * that satisfies `p`.
@@ -73,7 +73,10 @@ object FunSets {
    * Returns a set transformed by applying `f` to each element of `s`.
    */
     def map(s: Set, f: Int => Int): Set = ???
-  
+
+
+
+
   /**
    * Displays the contents of a set
    */
@@ -88,4 +91,6 @@ object FunSets {
   def printSet(s: Set) {
     println(toString(s))
   }
+*/
+
 }
