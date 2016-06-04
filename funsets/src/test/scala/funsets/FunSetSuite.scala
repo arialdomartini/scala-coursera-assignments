@@ -148,4 +148,26 @@ class FunSetSuite extends FunSuite {
     }
   }
 
+  test("filter can define a new set based on another set, whose elements are selected based on a function") {
+    new TestSets {
+      val s = union(union(s1, s2), s3)
+
+      val actual = filter(s, e => e == 1)
+
+      assert(contains(actual, 1) === true)
+      assert(contains(actual, 2) === false)
+      assert(contains(actual, 3) === false)
+    }
+
+    new TestSets {
+      val s = union(union(s1, s2), s3)
+
+      val actual = filter(s, e => e > 1)
+
+      assert(contains(actual, 1) === false)
+      assert(contains(actual, 2) === true)
+      assert(contains(actual, 3) === true)
+    }
+  }
+
 }
