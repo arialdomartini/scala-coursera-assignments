@@ -103,9 +103,9 @@ class FunSetSuite extends FunSuite {
        * The string argument of "assert" is a message that is printed in case
        * the test fails. This helps identifying which assertion failed.
        */
-      assert(contains(s1, 1), "Singleton")
-      assert(contains(s2, 2), "Singleton")
-      assert(contains(s3, 3), "Singleton")
+      assert(contains(s1, 1) === true, "Singleton")
+      assert(contains(s2, 2) === true, "Singleton")
+      assert(contains(s3, 3) === true, "Singleton")
     }
   }
 
@@ -113,11 +113,26 @@ class FunSetSuite extends FunSuite {
     new TestSets {
       val s = union(s1, s2)
 
-      assert(contains(s, 1), "Union 1")
-      assert(contains(s, 2), "Union 2")
-      assert(!contains(s, 3), "Union 3")
+      assert(contains(s, 1) === true, "Union 1")
+      assert(contains(s, 2) === true, "Union 2")
+      assert(contains(s, 3) === false, "Union 3")
     }
   }
 
+  test("intersect contains only elements that both sets contains") {
+    new TestSets {
+      val s = intersect(s1, s2)
+
+      assert(contains(s, 1) === false, "intersect(s1, s2) does not contain s1")
+      assert(contains(s, 2) === false, "intersect(s1, s2) does not contain s2")
+    }
+
+    new TestSets {
+      val s = intersect(s1, s1)
+
+      assert(contains(s, 1) === true, "intersect(s1, s1) contains s1")
+      assert(contains(s, 2) === false, "intersect(s1, s2) does not contain s2")
+    }
+  }
 
 }
