@@ -62,7 +62,7 @@ object FunSets {
       check
     }
   
-/*  
+
   /**
    * The bounds for `forall` and `exists` are +/- 1000.
    */
@@ -71,15 +71,14 @@ object FunSets {
   /**
    * Returns whether all bounded integers within `s` satisfy `p`.
    */
-    def forall(s: Set, p: Int => Boolean): Boolean = {
+  def forall(s: Set, p: Int => Boolean): Boolean = {
     def iter(a: Int): Boolean = {
-      if (???) ???
-      else if (???) ???
-      else iter(???)
+      if (a > bound) true
+      else (! contains(s, a) || p(a)) && iter(a + 1)
     }
-    iter(???)
+    iter(-bound)
   }
-
+/*
   /**
    * Returns whether there exists a bounded integer within `s`
    * that satisfies `p`.
