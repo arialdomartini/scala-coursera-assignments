@@ -196,4 +196,20 @@ class FunSetSuite extends FunSuite {
     }
   }
 
+  test("map which transforms a given set into another one by applying to each of its elements the given function") {
+
+    new TestSets {
+      val s = union(union(s1, s2), s3)
+
+      val actual = map(s, e => 10 * e)
+
+      assert(contains(actual, 1) === false)
+      assert(contains(actual, 2) === false)
+      assert(contains(actual, 3) === false)
+      assert(contains(actual, 10) === true)
+      assert(contains(actual, 20) === true)
+      assert(contains(actual, 30) === true)
+    }
+  }
+
 }

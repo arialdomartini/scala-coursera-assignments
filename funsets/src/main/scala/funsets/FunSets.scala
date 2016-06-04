@@ -95,13 +95,30 @@ object FunSets {
       evalSingle(-bound)
     }
 
-/*  
+
   /**
    * Returns a set transformed by applying `f` to each element of `s`.
    */
-    def map(s: Set, f: Int => Int): Set = ???
+    def map(s: Set, f: Int => Int): Set = {
+      def create(a: Int): Set = {
+        if(a > bound) e => false
+        else {
+          if(contains(s, a)){
+            val newSet = singletonSet(f(a))
+            union(newSet, create(a + 1))  
+          }
+          else
+            {
+            union(e => false, create(a + 1))  
+          }
+          //val newSet = (e: Int) => contains(s, a) && f(e) == a
+          
+        }
+      }
+      create(-bound)
+    }
 
-
+/*
 
 
   /**
