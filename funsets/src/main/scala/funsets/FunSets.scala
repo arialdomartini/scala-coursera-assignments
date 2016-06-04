@@ -24,13 +24,17 @@ object FunSets {
       return containsElement
     }
   
-/*
+
   /**
    * Returns the union of the two given sets,
    * the sets of all elements that are in either `s` or `t`.
    */
-    def union(s: Set, t: Set): Set = ???
-  
+    def union(s: Set, t: Set): Set = {
+      def both(e: Int): Boolean = contains(s, e) || contains(t, e)
+      return both
+    }
+
+/*  
   /**
    * Returns the intersection of the two given sets,
    * the set of all elements that are both in `s` and `t`.
