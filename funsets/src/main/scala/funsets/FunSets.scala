@@ -100,8 +100,6 @@ object FunSets {
       create(-bound)
     }
 
-/*
-
 
   /**
    * Displays the contents of a set
@@ -117,6 +115,5 @@ object FunSets {
   def printSet(s: Set) {
     println(toString(s))
   }
-*/
 
 }
