@@ -78,13 +78,24 @@ object FunSets {
     }
     iter(-bound)
   }
-/*
+
   /**
    * Returns whether there exists a bounded integer within `s`
    * that satisfies `p`.
    */
-    def exists(s: Set, p: Int => Boolean): Boolean = ???
-  
+    def exists(s: Set, p: Int => Boolean): Boolean = {
+      def evalSingle(a: Int): Boolean = {
+        if(a > bound) false
+        else {
+          val u = singletonSet(a)
+          val int = intersect(s, u)
+          forall(int, p) || evalSingle(a + 1)
+        }
+      }
+      evalSingle(-bound)
+    }
+
+/*  
   /**
    * Returns a set transformed by applying `f` to each element of `s`.
    */
