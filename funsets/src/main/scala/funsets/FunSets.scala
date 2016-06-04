@@ -103,16 +103,8 @@ object FunSets {
       def create(a: Int): Set = {
         if(a > bound) e => false
         else {
-          if(contains(s, a)){
-            val newSet = singletonSet(f(a))
-            union(newSet, create(a + 1))  
-          }
-          else
-            {
-            union(e => false, create(a + 1))  
-          }
-          //val newSet = (e: Int) => contains(s, a) && f(e) == a
-          
+          val newSet = (e: Int) => contains(s, a) && e == f(a)
+          union(newSet, create(a + 1))  
         }
       }
       create(-bound)
