@@ -58,11 +58,13 @@ object FunSets {
     iter(-bound)
   }
 
+  def not(predicate: Int => Boolean) : (Int => Boolean) = (e: Int) => ! predicate(e)
+
   /**
    * Returns whether there exists a bounded integer within `s`
    * that satisfies `p`.
    */
-    def exists(s: Set, p: Int => Boolean): Boolean = ! forall(s, e => ! p(e))
+    def exists(s: Set, p: Int => Boolean): Boolean = ! forall(s, not(p))
 
 
   /**
@@ -85,5 +87,4 @@ object FunSets {
   def printSet(s: Set) {
     println(toString(s))
   }
-
 }

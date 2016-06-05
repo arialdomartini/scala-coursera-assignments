@@ -59,7 +59,16 @@ class FunSetSuite extends FunSuite {
     assert(contains(x => negativeNumbers(x), -100) === true)
   }
 
+  test("not function inverts a predicate") {
+    def predicate = (e: Int) => e % 2 == 0
+    assert(predicate(1) === false)
+    assert(predicate(2) === true)
 
+    def actual = not(predicate)
+
+    assert(actual(1) === true)
+    assert(actual(2) === false)
+  }
   /**
    * When writing tests, one would often like to re-use certain values for multiple
    * tests. For instance, we would like to create an Int-set and have multiple test
