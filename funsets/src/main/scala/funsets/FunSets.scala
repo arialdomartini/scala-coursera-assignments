@@ -62,10 +62,7 @@ object FunSets {
    * Returns whether there exists a bounded integer within `s`
    * that satisfies `p`.
    */
-    def exists(s: Set, p: Int => Boolean): Boolean = {
-      def evalSingle(a: Int): Boolean = ( !(a > bound) ) ||  ( forall(intersect(s, singletonSet(a)), p) || evalSingle(a + 1) )
-      evalSingle(-bound)
-    }
+    def exists(s: Set, p: Int => Boolean): Boolean = ! forall(s, e => ! p(e))
 
 
   /**
