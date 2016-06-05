@@ -54,10 +54,7 @@ object FunSets {
    * Returns whether all bounded integers within `s` satisfy `p`.
    */
   def forall(s: Set, p: Int => Boolean): Boolean = {
-    def iter(a: Int): Boolean = {
-      if (a > bound) true
-      else (! contains(s, a) || p(a)) && iter(a + 1)
-    }
+    def iter(a: Int): Boolean = (a > bound) || ( (! contains(s, a) || p(a)) && iter(a + 1) )
     iter(-bound)
   }
 
@@ -66,10 +63,7 @@ object FunSets {
    * that satisfies `p`.
    */
     def exists(s: Set, p: Int => Boolean): Boolean = {
-      def evalSingle(a: Int): Boolean = {
-        if(a > bound) false
-        else forall(intersect(s, singletonSet(a)), p) || evalSingle(a + 1)
-      }
+      def evalSingle(a: Int): Boolean = ( !(a > bound) ) ||  ( forall(intersect(s, singletonSet(a)), p) || evalSingle(a + 1) )
       evalSingle(-bound)
     }
 
