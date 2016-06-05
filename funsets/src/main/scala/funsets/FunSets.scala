@@ -19,49 +19,31 @@ object FunSets {
   /**
    * Returns the set of the one given element.
    */
-    def singletonSet(elem: Int): Set = {
-      def containsElement(e: Int): Boolean = e == elem
-      return containsElement
-    }
+    def singletonSet(elem: Int): Set = (e: Int) => e == elem
   
 
   /**
    * Returns the union of the two given sets,
    * the sets of all elements that are in either `s` or `t`.
    */
-    def union(s: Set, t: Set): Set = {
-      def both(e: Int): Boolean = contains(s, e) || contains(t, e)
-      return both
-    }
-
+    def union(s: Set, t: Set): Set = (e: Int) => contains(s, e) || contains(t, e)
 
   /**
    * Returns the intersection of the two given sets,
    * the set of all elements that are both in `s` and `t`.
    */
-    def intersect(s: Set, t: Set): Set = {
-      def inCommon(e: Int): Boolean = contains(s, e) && contains(t, e)
-      return inCommon
-    }
+    def intersect(s: Set, t: Set): Set = (e: Int) => contains(s, e) && contains(t, e)
 
   /**
    * Returns the difference of the two given sets,
    * the set of all elements of `s` that are not in `t`.
    */
-    def diff(s: Set, t: Set): Set = {
-      def onlyInS(e: Int): Boolean = contains(s, e) && !contains(t, e)
-      return onlyInS
-    }
-
+    def diff(s: Set, t: Set): Set = (e: Int) => contains(s, e) && !contains(t, e)
 
   /**
    * Returns the subset of `s` for which `p` holds.
    */
-    def filter(s: Set, p: Int => Boolean): Set = {
-      def check(e: Int): Boolean = contains(s, e) && p(e)
-      check
-    }
-  
+    def filter(s: Set, p: Int => Boolean): Set = (e: Int) => contains(s, e) && p(e)  
 
   /**
    * The bounds for `forall` and `exists` are +/- 1000.
