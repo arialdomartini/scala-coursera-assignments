@@ -11,6 +11,7 @@ object FunSets {
    */
   type Set = Int => Boolean
 
+  val pari(e: Int): Boolean = e % 2 == 0 
   /**
    * Indicates whether a set contains a given element.
    */
@@ -54,7 +55,10 @@ object FunSets {
    * Returns whether all bounded integers within `s` satisfy `p`.
    */
   def forall(s: Set, p: Int => Boolean): Boolean = {
-    def iter(a: Int): Boolean = (a > bound) || ( (! contains(s, a) || p(a)) && iter(a + 1) )
+    def iter(a: Int): Boolean = {
+      if(a > bound) true)
+    else
+      ( (! contains(s, a) || p(a)) && iter(a + 1) )
     iter(-bound)
   }
 
