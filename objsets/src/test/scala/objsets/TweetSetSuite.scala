@@ -29,7 +29,11 @@ class TweetSetSuite extends FunSuite {
 
   test("filter: on empty set") {
     new TestSets {
-      assert(size(set1.filter(tw => tw.user == "a")) === 0)
+      val sut = new Empty
+
+      val result = sut.filter(tw => tw.user == "a")
+
+      assert(size(result) === 0)
     }
   }
 
