@@ -90,7 +90,7 @@ class TweetSetSuite extends FunSuite {
       assert(size(set4c.union(set4d)) === 4)
     }
   }
-/*
+
   test("union: with empty set (1)") {
     new TestSets {
       assert(size(set5.union(set1)) === 4)
@@ -102,7 +102,7 @@ class TweetSetSuite extends FunSuite {
       assert(size(set1.union(set5)) === 4)
     }
   }
-
+/*
   test("descending: set5") {
     new TestSets {
       val trends = set5.descendingByRetweet
