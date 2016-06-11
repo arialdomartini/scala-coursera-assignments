@@ -65,7 +65,9 @@ abstract class TweetSet {
    * Question: Should we implment this method here, or should it remain abstract
    * and be implemented in the subclasses?
    */
-    def mostRetweeted: Tweet = ???
+    def mostRetweeted: Tweet
+
+    def moreRetweetedOrSame(other: Tweet): Tweet
   
   /**
    * Returns a list containing all tweets of this set, sorted by retweet count
@@ -110,9 +112,12 @@ class Empty extends TweetSet {
   def filterAcc(p: Tweet => Boolean, acc: TweetSet): TweetSet = acc
   
 
-  override def union(that: TweetSet): TweetSet = {
-    that
-  }
+  override def union(that: TweetSet): TweetSet = that
+
+  override def mostRetweeted: Tweet = ???
+
+  override def moreRetweetedOrSame(other: Tweet): Tweet = other
+
 
   /**
    * The following methods are already implemented
@@ -133,9 +138,18 @@ class NonEmpty(elem: Tweet, left: TweetSet, right: TweetSet) extends TweetSet {
     left.filterAcc(p, right.filterAcc(p, if(p(elem)) acc.incl(elem) else acc))
   }
   
-  override def union(that: TweetSet): TweetSet = {
-    right.union(left.union(that.incl(elem)))
-    
+  override def union(that: TweetSet): TweetSet = right.union(left.union(that.incl(elem)))
+
+  override def mostRetweeted: Tweet = {
+    moreRetweetedOrSame(elem)
+  }
+
+  override def moreRetweetedOrSame(other: Tweet): Tweet = {
+    val l = left.moreRetweetedOrSame(other)
+    val r = right.moreRetweetedOrSame(other)
+    if(elem.retweets > l.retweets && elem.retweets > r.retweets) elem
+    else if(l.retweets > r.retweets) l
+    else r
   }
 
     
