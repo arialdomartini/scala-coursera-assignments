@@ -37,7 +37,17 @@ class TweetSetSuite extends FunSuite {
     }
   }
 
-/*
+  test("filter: can filter on a non empty set") {
+    val a = new Tweet("a", "a body", 20)
+    val b = new Tweet("b", "b body", 20)
+    val c = new Tweet("c", "c body", 7)
+    val d = new Tweet("d", "d body", 9)
+
+    val set5 = new Empty().incl(a).incl(b).incl(c).incl(d)
+
+    assert(size(set5.filter(tw => tw.user == "a")) === 1)
+  }
+
   test("filter: a on set5") {
     new TestSets {
       assert(size(set5.filter(tw => tw.user == "a")) === 1)
@@ -49,7 +59,7 @@ class TweetSetSuite extends FunSuite {
       assert(size(set5.filter(tw => tw.retweets == 20)) === 2)
     }
   }
-
+/*
   test("union: set4c and set4d") {
     new TestSets {
       assert(size(set4c.union(set4d)) === 4)
