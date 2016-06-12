@@ -135,6 +135,6 @@ class TweetSetSuite extends FunSuite {
     val result = set.descendingByRetweet
     
     assert(result.head.user == "b")
-    }
+  }
 
 }
