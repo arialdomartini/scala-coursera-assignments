@@ -124,7 +124,7 @@ class TweetSetSuite extends FunSuite {
     }
   }
 
-  test("descending: orders tweets by retweets") {
+  test("size returns the number of all the non empty TweetSet present") {
     val a = new Tweet("a", "a body", 20)
     val b = new Tweet("b", "b body", 30)
     val c = new Tweet("c", "c body", 7)
@@ -132,9 +132,37 @@ class TweetSetSuite extends FunSuite {
     
     val set = new Empty().incl(b).incl(a).incl(c).incl(d)
     
+    val result = set.size
+    
+    assert(result === 4)
+  }
+
+  test("size returns the number of all the non empty TweetSet present in a list") {
+    val a = new Tweet("a", "a body", 20)
+    val b = new Tweet("b", "b body", 30)
+    val c = new Tweet("c", "c body", 7)
+    val d = new Tweet("d", "d body", 9)
+    
+    val set = new Cons(a, new Cons(b, new Cons(c, new Cons(d, Nil))))
+    
+    val result = set.size
+    
+    assert(result === 4)
+  }
+
+  test("descending: orders tweets by retweets") {
+    val a = new Tweet("a", "5 body", 20)
+    val b = new Tweet("b", "2 body", 30)
+    val c = new Tweet("c", "7 body", 7)
+    val d = new Tweet("d", "1 body", 9)
+    
+    val set = new Empty().incl(a).incl(b).incl(c).incl(d)
+    
     val result = set.descendingByRetweet
     
     assert(result.head.user == "b")
+
+    assert(result.size === 4)
   }
 
   test("can read google and apple tweets") {
@@ -152,10 +180,17 @@ class TweetSetSuite extends FunSuite {
   }
 
   test("should filter Google tweets") {
-    assert(size(GoogleVsApple.googleTweets) === 31)
+    assert(GoogleVsApple.googleTweets.size === 31)
   }
 
   test("should filter Apple tweets") {
-    assert(size(GoogleVsApple.appleTweets) === 105)
+    assert(GoogleVsApple.appleTweets.size === 105)
+  }
+  test("should filter Apple and Googletweets") {
+    assert(GoogleVsApple.appleAndGoogleTweets.size === 129)
+  }
+
+  test("trending should contain google and apple tweets") {
+    assert(trending.size === 129)
   }
 }
