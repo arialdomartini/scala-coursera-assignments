@@ -138,15 +138,14 @@ class Empty extends TweetSet {
 
 class NonEmpty(elem: Tweet, left: TweetSet, right: TweetSet) extends TweetSet {
 
-  def filterAcc(p: Tweet => Boolean, acc: TweetSet): TweetSet = {
-    left.filterAcc(p, right.filterAcc(p, if(p(elem)) acc.incl(elem) else acc))
-  }
+  def filterAcc(p: Tweet => Boolean, acc: TweetSet): TweetSet =  left.filterAcc(p, right.filterAcc(p, if(p(elem)) acc.incl(elem) else acc))
   
   override def union(that: TweetSet): TweetSet = right.union(left.union(that.incl(elem)))
 
   override def mostRetweeted: Tweet = {
     moreRetweetedOrSame(elem)
   }
+
 
   override def moreRetweetedOrSame(other: Tweet): Tweet = {
     val l = left.moreRetweetedOrSame(other)
