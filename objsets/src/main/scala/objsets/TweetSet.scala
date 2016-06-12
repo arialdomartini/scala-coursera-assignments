@@ -145,11 +145,16 @@ class NonEmpty(elem: Tweet, left: TweetSet, right: TweetSet) extends TweetSet {
   override def mostRetweeted: Tweet = moreRetweetedOrSame(elem)
 
   override def moreRetweetedOrSame(other: Tweet): Tweet = {
-    val l = left.moreRetweetedOrSame(other)
-    val r = right.moreRetweetedOrSame(other)
-    if(elem.retweets > l.retweets && elem.retweets > r.retweets) elem
-    else if(l.retweets > r.retweets) l
-    else r
+    def max(list: List[Tweet], maxSoFar: Tweet): Tweet = {
+      if(list.isEmpty) maxSoFar
+      else if(list.head.retweets > maxSoFar.retweets) list.head else max(list.tail, maxSoFar)
+    }
+    val list = List(
+      left.moreRetweetedOrSame(other),
+      right.moreRetweetedOrSame(other),
+      elem
+    )
+    max(list, list.head)
   }
 
   override def descendingByRetweet: TweetList = {
