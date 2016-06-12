@@ -142,10 +142,7 @@ class NonEmpty(elem: Tweet, left: TweetSet, right: TweetSet) extends TweetSet {
   
   override def union(that: TweetSet): TweetSet = right.union(left.union(that.incl(elem)))
 
-  override def mostRetweeted: Tweet = {
-    moreRetweetedOrSame(elem)
-  }
-
+  override def mostRetweeted: Tweet = moreRetweetedOrSame(elem)
 
   override def moreRetweetedOrSame(other: Tweet): Tweet = {
     val l = left.moreRetweetedOrSame(other)
