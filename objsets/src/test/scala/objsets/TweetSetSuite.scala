@@ -137,4 +137,9 @@ class TweetSetSuite extends FunSuite {
     assert(result.head.user == "b")
   }
 
+  test("can read google and apple tweets") {
+    val result = TweetReader.allTweets
+
+    assert(size(result) === 695)
+  }
 }
