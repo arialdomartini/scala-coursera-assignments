@@ -115,7 +115,7 @@ class TweetSetSuite extends FunSuite {
 
     assert(result === b)
   }
-/*
+
   test("descending: set5") {
     new TestSets {
       val trends = set5.descendingByRetweet
@@ -123,5 +123,18 @@ class TweetSetSuite extends FunSuite {
       assert(trends.head.user == "a" || trends.head.user == "b")
     }
   }
-*/
+
+  test("descending: orders tweets by retweets") {
+    val a = new Tweet("a", "a body", 20)
+    val b = new Tweet("b", "b body", 30)
+    val c = new Tweet("c", "c body", 7)
+    val d = new Tweet("d", "d body", 9)
+    
+    val set = new Empty().incl(b).incl(a).incl(c).incl(d)
+    
+    val result = set.descendingByRetweet
+    
+    assert(result.head.user == "b")
+    }
+
 }
