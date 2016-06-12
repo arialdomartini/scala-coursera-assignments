@@ -1,7 +1,7 @@
 package objsets
 
 import org.scalatest.FunSuite
-
+import GoogleVsApple._
 
 import org.junit.runner.RunWith
 import org.scalatest.junit.JUnitRunner
@@ -141,5 +141,21 @@ class TweetSetSuite extends FunSuite {
     val result = TweetReader.allTweets
 
     assert(size(result) === 695)
+  }
+
+  test("string contains one of the items listed in a list") {
+    val list = List("android", "Android", "galaxy", "Galaxy", "nexus", "Nexus")
+
+    assert(contains("this is android", list) === true)
+    assert(contains("nexus and Nexus", list) === true)
+    assert(contains("this is xxx", list) === false)
+  }
+
+  test("should filter Google tweets") {
+    assert(size(GoogleVsApple.googleTweets) === 31)
+  }
+
+  test("should filter Apple tweets") {
+    assert(size(GoogleVsApple.appleTweets) === 105)
   }
 }
