@@ -24,14 +24,23 @@ class HuffmanSuite extends FunSuite {
       assert(weight(t1) === 5)
     }
   }
+
+  test("should calculate the number of chars in a tree") {
+    val tree = Fork(Fork(Leaf('a',2), Leaf('b',3), List('a','b'), 5), Leaf('c',4), List('a','b','c'), 9)
+
+    val result = chars(tree)
+
+    assert(result === List('a', 'b', 'c'))
+  }
+
+
+  test("chars of a larger tree") {
+    new TestTrees {
+      assert(chars(t2) === List('a','b','d'))
+    }
+  }
+
   /*
-
-test("chars of a larger tree") {
-new TestTrees {
-assert(chars(t2) === List('a','b','d'))
-}
-}
-
 
 test("string2chars(\"hello, world\")") {
 assert(string2Chars("hello, world") === List('h', 'e', 'l', 'l', 'o', ',', ' ', 'w', 'o', 'r', 'l', 'd'))
