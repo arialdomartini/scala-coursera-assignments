@@ -102,12 +102,7 @@ object Huffman {
   def times(chars: List[Char]): List[(Char, Int)] = {
     def times(chars: List[Char], acc: List[(Char, Int)]): List[(Char, Int)] = {
       if(chars.isEmpty) acc
-      else {
-        val head = chars.head
-        val tail = chars.tail
-        val newAcc = countChar(head, acc)
-        times(tail, newAcc)
-      }
+      else times(chars.tail, countChar(chars.head, acc))
     }
     times(chars, List())
   }
