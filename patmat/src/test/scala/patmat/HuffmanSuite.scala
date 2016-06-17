@@ -44,6 +44,37 @@ class HuffmanSuite extends FunSuite {
     assert(string2Chars("hello, world") === List('h', 'e', 'l', 'l', 'o', ',', ' ', 'w', 'o', 'r', 'l', 'd'))
   }
 
+  test("should update the list of char counts starting from an empty list") {
+    val list = List()
+
+    val result = countChar('a', list)
+
+    assert(result == List(('a', 1)))
+  }
+
+  test("should update the list of char counts incrementing the count of the corresponding char") {
+    val list = List(('a', 5))
+
+    val result = countChar('a', list)
+
+    assert(result == List(('a', 6)))
+  }
+
+  test("should update the list of char counts incrementing the count of the corresponding char and preserving all the other chars") {
+    val list = List(('a', 5), ('b', 10))
+
+    val result = countChar('b', list)
+
+    assert(result == List(('a', 5), ('b', 11)))
+  }
+
+  test("should count the occourrences of a char in a list") {
+    val list = List('a', 'b', 'a')
+
+    val result = times(list)
+
+    assert(result === List(('a', 2), ('b', 1)))
+  }
   /*
 test("makeOrderedLeafList for some frequency table") {
 assert(makeOrderedLeafList(List(('t', 2), ('e', 1), ('x', 3))) === List(Leaf('e',1), Leaf('t',2), Leaf('x',3)))

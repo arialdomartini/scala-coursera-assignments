@@ -85,7 +85,32 @@ object Huffman {
   *       println("integer is  : "+ theInt)
   *   }
   */
-  def times(chars: List[Char]): List[(Char, Int)] = ???
+
+  def countChar(char: Char, list: List[(Char, Int)]): List[(Char, Int)]  = {
+    if(list.isEmpty) List((char, 1))
+    else {
+      /*list.head match {
+        case (char, count) => (char, count + 1) :: list.tail
+        case (_, _) => list.head :: countChar(char, list.tail)  
+      }
+      */
+      if(list.head._1 == char) (char, list.head._2 + 1) :: list.tail
+      else list.head :: countChar(char, list.tail)
+    }
+  }
+
+  def times(chars: List[Char]): List[(Char, Int)] = {
+    def times(chars: List[Char], acc: List[(Char, Int)]): List[(Char, Int)] = {
+      if(chars.isEmpty) acc
+      else {
+        val head = chars.head
+        val tail = chars.tail
+        val newAcc = countChar(head, acc)
+        times(tail, newAcc)
+      }
+    }
+    times(chars, List())
+  }
   
   /**
   * Returns a list of `Leaf` nodes for a given frequency table `freqs`.
