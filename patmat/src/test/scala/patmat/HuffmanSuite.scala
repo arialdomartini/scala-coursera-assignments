@@ -221,4 +221,15 @@ class HuffmanSuite extends FunSuite {
     }
   }
 
+  test("codeBits returns the bits representation of a char based on a codeTable") {
+    val codeTable = List(
+      ('a', List(1, 1, 0, 0)),
+      ('b', List(1, 0, 0, 0)),
+      ('c', List(0, 1, 0, 0))
+    )
+
+    assert(codeBits(codeTable)('a') == List(1, 1, 0, 0))
+    assert(codeBits(codeTable)('b') == List(1, 0, 0, 0))
+    assert(codeBits(codeTable)('c') == List(0, 1, 0, 0))
+  }
 }

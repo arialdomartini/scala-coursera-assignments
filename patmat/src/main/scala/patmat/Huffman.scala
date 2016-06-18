@@ -265,7 +265,7 @@ object Huffman {
   * This function returns the bit sequence that represents the character `char` in
   * the code table `table`.
   */
-  def codeBits(table: CodeTable)(char: Char): List[Bit] = ???
+  def codeBits(table: CodeTable)(char: Char): List[Bit] = if(table.head._1 == char) table.head._2 else codeBits(table.tail)(char)
   
   /**
   * Given a code tree, create a code table which contains, for every character in the
