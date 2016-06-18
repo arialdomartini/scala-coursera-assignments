@@ -144,6 +144,8 @@ object Huffman {
   */
   def singleton(trees: List[CodeTree]): Boolean = ! trees.isEmpty && trees.tail.isEmpty
   
+  def firstTwoElements(trees: List[CodeTree]) = List(trees.head, trees.tail.head)
+
   /**
   * The parameter `trees` of this function is a list of code trees ordered
   * by ascending weights.
@@ -156,7 +158,10 @@ object Huffman {
   * If `trees` is a list of less than two elements, that list should be returned
   * unchanged.
   */
-  def combine(trees: List[CodeTree]): List[CodeTree] = ???
+  def combine(trees: List[CodeTree]): List[CodeTree] = {
+    val firstTwo = firstTwoElements(trees)
+    makeCodeTree(firstTwo.head, firstTwo.tail.head) :: trees.tail.tail
+  }
   
   /**
   * This function will be called in the following way:
