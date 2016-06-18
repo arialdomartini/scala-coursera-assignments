@@ -39,6 +39,59 @@ class HuffmanSuite extends FunSuite {
     }
   }
 
+
+  test("creates a complete tree starting from a string") {
+    val input = "ettxxxx"
+
+    val result = createCodeTree(string2Chars(input))
+
+    val expected =
+      Fork(
+        Leaf('x',4),
+        Fork(
+          Leaf('t', 2),
+          Leaf('e', 1),
+          List('t', 'e'), 3
+        ),
+        List('x', 't', 'e'), 7
+      )
+
+    assert(result == expected)
+  }
+
+
+  test("should count the occourrences of a char in a list") {
+    val list = List('a', 'b', 'a')
+
+    val result = times(list)
+
+    assert(result === List(('a', 2), ('b', 1)))
+  }
+
+  test("makeLeafList for a frequency table with one single element") {
+    val list = List(('t', 11))
+
+    val result = makeLeafList(list)
+
+    assert(result === List(Leaf('t', 11)))
+  }
+
+  test("makeLeafList for some frequency table") {
+    val list = List(('t', 2), ('e', 1), ('x', 3))
+
+    val result = makeLeafList(list)
+
+    assert(result === List(Leaf('t', 2), Leaf('e', 1), Leaf('x', 3)))
+  }
+
+  test("singleton should detect wether a list contains only one or more code tree") {
+    assert(singleton( List(Leaf('a', 1)) ) == true)
+
+    assert(singleton( List(Leaf('a', 1), Leaf('b', 5)) ) == false)
+
+    assert(singleton( List() ) == false)
+  }
+
 /*
 
   test("string2chars(\"hello, world\")") {
@@ -69,29 +122,7 @@ class HuffmanSuite extends FunSuite {
     assert(result == List(('a', 5), ('b', 11)))
   }
 
-  test("should count the occourrences of a char in a list") {
-    val list = List('a', 'b', 'a')
 
-    val result = times(list)
-
-    assert(result === List(('a', 2), ('b', 1)))
-  }
-
-  test("makeLeafList for a frequency table with one single element") {
-    val list = List(('t', 11))
-
-    val result = makeLeafList(list)
-
-    assert(result === List(Leaf('t', 11)))
-  }
-
-  test("makeLeafList for some frequency table") {
-    val list = List(('t', 2), ('e', 1), ('x', 3))
-
-    val result = makeLeafList(list)
-
-    assert(result === List(Leaf('t', 2), Leaf('e', 1), Leaf('x', 3)))
-  }
 
   test("makeOrderedLeafList for some frequency table") {
     val list = List(('t', 2), ('e', 1), ('x', 3))
@@ -99,14 +130,6 @@ class HuffmanSuite extends FunSuite {
     val result = makeOrderedLeafList(list)
 
     assert(result === List(Leaf('e', 1), Leaf('t', 2), Leaf('x', 3)))
-  }
-
-  test("singleton should detect wether a list contains only one or more code tree") {
-    assert(singleton( List(Leaf('a', 1)) ) == true)
-
-    assert(singleton( List(Leaf('a', 1), Leaf('b', 5)) ) == false)
-
-    assert(singleton( List() ) == false)
   }
 
   test("combine of some leaf list") {
@@ -143,25 +166,6 @@ class HuffmanSuite extends FunSuite {
     assert(result == expected)
   }
   
-  test("creates a complete tree starting from a string") {
-    val input = "ettxxxx"
-
-    val result = createCodeTree(string2Chars(input))
-
-    val expected =
-      Fork(
-        Leaf('x',4),
-        Fork(
-          Leaf('t', 2),
-          Leaf('e', 1),
-          List('t', 'e'), 3
-        ),
-        List('x', 't', 'e'), 7
-      )
-
-    assert(result == expected)
-  }
-
   test("my times") {
     val input = "cc adbea babcd aaba edd bc ab a cbaa"
     // 10 a

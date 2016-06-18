@@ -108,6 +108,7 @@ object Huffman {
   }
 
 
+
   def makeLeafList(freqs: List[(Char, Int)]): List[Leaf] = {
     val head = freqs.head
     val tail = freqs.tail
@@ -115,6 +116,14 @@ object Huffman {
     if(tail.isEmpty) List(Leaf(head._1, head._2))
     else Leaf(head._1, head._2) :: makeLeafList(freqs.tail)
   }
+
+  /**
+  * Checks whether the list `trees` contains only one single code tree.
+  */
+  def singleton(trees: List[CodeTree]): Boolean = ! trees.isEmpty && trees.tail.isEmpty
+
+
+////////// to be reviewed
 
   def insert(element: Leaf, list: List[Leaf]): List[Leaf] = {
     if(list.isEmpty) List(element)
@@ -151,10 +160,6 @@ object Huffman {
     freqs.sortWith((e1, e2) => e1._2 < e2._2).map((e) => Leaf(e._1, e._2))
   }
   
-  /**
-  * Checks whether the list `trees` contains only one single code tree.
-  */
-  def singleton(trees: List[CodeTree]): Boolean = ! trees.isEmpty && trees.tail.isEmpty
   
   /**
   * The parameter `trees` of this function is a list of code trees ordered
