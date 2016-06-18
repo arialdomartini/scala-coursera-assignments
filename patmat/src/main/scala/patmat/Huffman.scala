@@ -205,7 +205,7 @@ object Huffman {
         case Leaf(char, _) if(bits.isEmpty) => List(char)
         case Leaf(char, _) => char :: traverse(root, bits)
         case Fork(left, right, _, _) if(bits.head == 0) => traverse(left, bits.tail)
-        case Fork(left, right, _, _) if(bits.head == 1) => traverse(right, bits.tail)
+        case Fork(left, right, _, _) => traverse(right, bits.tail)
       }
     }
     traverse(root, bits)
@@ -236,19 +236,16 @@ object Huffman {
   * into a sequence of bits.
   */
   def encode(tree: CodeTree)(text: List[Char]): List[Bit] = {
-    def traverse(text: List[Char]): List[Bit] = {
-      if(text.isEmpty) List()
-      else {
-        tree match {
-          case Fork(left, right, _, _) if(left.contains(text.head)) => 0 :: traverse(text.tail)
-          case Fork(left, right, _, _) if(right.contains(text.head)) => 1 :: traverse(text.tail)
-          case Leaf(char, _) => traverse(text.tail)
-        }
+    def convertOne(path: CodeTree)(char: Char): List[Bit] = {
+      path match {
+        case Leaf(_, _) => List()
+        case Fork(left, right, _, _) if(left.contains(char)) => 0 :: convertOne(left)(char)
+        case Fork(left, right, _, _) if(right.contains(char)) => 1 :: convertOne(right)(char)
       }
     }
-    traverse(text)
+    text flatMap(convertOne)(tree)
   }
-  
+
   // Part 4b: Encoding using code table
 
   type CodeTableItem = (Char, List[Bit])

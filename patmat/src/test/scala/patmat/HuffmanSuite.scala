@@ -179,7 +179,7 @@ class HuffmanSuite extends FunSuite {
     val cba = Fork(cb, a, List('c', 'b', 'a'), 6)
     assert(createCodeTree(List('a', 'b', 'a', 'c', 'b', 'a')) === cba)
   }
-/*
+
 
   test("string2chars(\"hello, world\")") {
     assert(string2Chars("hello, world") === List('h', 'e', 'l', 'l', 'o', ',', ' ', 'w', 'o', 'r', 'l', 'd'))
@@ -221,10 +221,9 @@ class HuffmanSuite extends FunSuite {
     // 4 d
     // 2 e
 
-    val expected = List(('a', 10), (' ', 8), ('b', 7), ('c', 5), ('d', 4), ('e', 2))
+    val expected = List(('e', 2), ('d', 4), ('c', 5), ('b', 7), (' ', 8), ('a', 10))
 
     assert(times(input.toList) === expected)
-  }
   }
 
   test("creates a complete tree starting from a string, simple case") {
@@ -235,17 +234,22 @@ class HuffmanSuite extends FunSuite {
     val result = createCodeTree(string2Chars(input))
 
     val expected = Fork(
-      Leaf('a', 10),
       Leaf('x', 2),
-      List('a', 'x'),12)
+      Leaf('a', 10),
+      List('x', 'a'),12)
 
     assert(result == expected)
   }
 
+
+
+
+
+
   test("should decode the frenchCode") {
     assert(decode(frenchCode, secret) == string2Chars("huffmanestcool"))
   }
-
+/////////////////////////// xxxxxxx
   test("decodedSecret should return the frenchCode") {
     assert(decodedSecret == string2Chars("huffmanestcool"))
   }
@@ -305,16 +309,20 @@ class HuffmanSuite extends FunSuite {
     assert(result === expected)
   }
 
+/*
   test("my decode and quick encode is identity") {
-    val baseForCodeTree = string2Chars("ture from 45 BC, making it over 2000 years old. Richard Mc")
     val text = string2Chars("ture from 45 BC, making it over 2000 years old. Richard Mc")
-    val codeTree = createCodeTree(baseForCodeTree)
+    val codeTree = createCodeTree(text)
 
     assert(decode(codeTree, quickEncode(codeTree)(text) ) === text )
   }
+*/
 
-  test("should encode") {
-    
+  test("my decode and encode is identity") {
+    val text = string2Chars("I should get this text back after encode and decode")
+    val codeTree = createCodeTree(text)
+    println(codeTree.toString)
+
+    assert(decode(codeTree, encode(codeTree)(text) ) === text )
   }
-  */
 }
