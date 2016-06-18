@@ -117,11 +117,66 @@ object Huffman {
     else Leaf(head._1, head._2) :: makeLeafList(freqs.tail)
   }
 
+
+  /**
+  * Returns a list of `Leaf` nodes for a given frequency table `freqs`.
+  *
+  * The returned list should be ordered by ascending weights (i.e. the
+  * head of the list should have the smallest weight), where the weight
+  * of a leaf is the frequency of the character.
+  */
+  def makeOrderedLeafList(freqs: List[(Char, Int)]): List[Leaf] = {
+    freqs.sortWith((e1, e2) => e1._2 < e2._2).map((e) => Leaf(e._1, e._2))
+  }
+  
+
   /**
   * Checks whether the list `trees` contains only one single code tree.
   */
   def singleton(trees: List[CodeTree]): Boolean = ! trees.isEmpty && trees.tail.isEmpty
 
+
+
+  /**
+  * The parameter `trees` of this function is a list of code trees ordered
+  * by ascending weights.
+  *
+  * This function takes the first two elements of the list `trees` and combines
+  * them into a single `Fork` node. This node is then added back into the
+  * remaining elements of `trees` at a position such that the ordering by weights
+  * is preserved.
+  *
+  * If `trees` is a list of less than two elements, that list should be returned
+  * unchanged.
+  */
+  def combine(trees: List[CodeTree]): List[CodeTree] = {
+    trees match {
+      case first :: second :: rest =>  (makeCodeTree(first, second) :: rest).sortWith((e1, e2) => weight(e1) < weight(e2))
+      case _ => trees
+    }
+  }
+  
+
+  /**
+  * This function will be called in the following way:
+  *
+  *   until(singleton, combine)(trees)
+  *
+  * where `trees` is of type `List[CodeTree]`, `singleton` and `combine` refer to
+  * the two functions defined above.
+  *
+  * In such an invocation, `until` should call the two functions until the list of
+  * code trees contains only one single tree, and then return that singleton list.
+  *
+  * Hint: before writing the implementation,
+  *  - start by defining the parameter types such that the above example invocation
+  *    is valid. The parameter types of `until` should match the argument types of
+  *    the example invocation. Also define the return type of the `until` function.
+  *  - try to find sensible parameter names for `xxx`, `yyy` and `zzz`.
+  */
+  def until(condition: List[CodeTree] => Boolean, reduce: List[CodeTree] => List[CodeTree])(tree: List[CodeTree]): List[CodeTree] =
+      if(condition(tree)) tree
+      else until(condition, reduce)(reduce(tree))
 
 ////////// to be reviewed
 
@@ -149,57 +204,7 @@ object Huffman {
     else insertTimes(list.head, sortTimes(list.tail))
   }
   
-  /**
-  * Returns a list of `Leaf` nodes for a given frequency table `freqs`.
-  *
-  * The returned list should be ordered by ascending weights (i.e. the
-  * head of the list should have the smallest weight), where the weight
-  * of a leaf is the frequency of the character.
-  */
-  def makeOrderedLeafList(freqs: List[(Char, Int)]): List[Leaf] = {
-    freqs.sortWith((e1, e2) => e1._2 < e2._2).map((e) => Leaf(e._1, e._2))
-  }
   
-  
-  /**
-  * The parameter `trees` of this function is a list of code trees ordered
-  * by ascending weights.
-  *
-  * This function takes the first two elements of the list `trees` and combines
-  * them into a single `Fork` node. This node is then added back into the
-  * remaining elements of `trees` at a position such that the ordering by weights
-  * is preserved.
-  *
-  * If `trees` is a list of less than two elements, that list should be returned
-  * unchanged.
-  */
-  def combine(trees: List[CodeTree]): List[CodeTree] = {
-    trees match {
-      case first :: second :: rest =>  (makeCodeTree(first, second) :: rest).sortWith((e1, e2) => weight(e1) < weight(e2))
-      case _ => trees
-    }
-  }
-  
-  /**
-  * This function will be called in the following way:
-  *
-  *   until(singleton, combine)(trees)
-  *
-  * where `trees` is of type `List[CodeTree]`, `singleton` and `combine` refer to
-  * the two functions defined above.
-  *
-  * In such an invocation, `until` should call the two functions until the list of
-  * code trees contains only one single tree, and then return that singleton list.
-  *
-  * Hint: before writing the implementation,
-  *  - start by defining the parameter types such that the above example invocation
-  *    is valid. The parameter types of `until` should match the argument types of
-  *    the example invocation. Also define the return type of the `until` function.
-  *  - try to find sensible parameter names for `xxx`, `yyy` and `zzz`.
-  */
-  def until(condition: List[CodeTree] => Boolean, reduce: List[CodeTree] => List[CodeTree])(tree: List[CodeTree]): List[CodeTree] =
-      if(condition(tree)) tree
-      else until(condition, reduce)(reduce(tree))
   /**
   * This function creates a code tree which is optimal to encode the text `chars`.
   *

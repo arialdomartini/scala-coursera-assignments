@@ -92,6 +92,48 @@ class HuffmanSuite extends FunSuite {
     assert(singleton( List() ) == false)
   }
 
+  test("makeOrderedLeafList for some frequency table") {
+    val list = List(('t', 2), ('e', 1), ('x', 3))
+
+    val result = makeOrderedLeafList(list)
+
+    assert(result === List(Leaf('e', 1), Leaf('t', 2), Leaf('x', 3)))
+  }
+
+
+  test("combine of some leaf list") {
+    val leaflist = List(Leaf('e', 1), Leaf('t', 2), Leaf('x', 4))
+
+    val result = combine(leaflist)
+
+    val expected = List(
+      Fork(
+        Leaf('e',1), 
+        Leaf('t',2), 
+        List('e', 't'), 3), 
+      Leaf('x',4))
+
+    assert(result == expected)
+  }
+
+  test("until") {
+
+    val list = List(Leaf('e', 1), Leaf('t', 2), Leaf('x', 4))
+
+    val result = until(singleton, combine)(list)
+
+    val expected = Fork(
+      Fork(
+        Leaf('e', 1),
+        Leaf('t' ,2),
+        List('e', 't'), 3),
+      Leaf('x', 4),
+      List('e', 't', 'x'), 7
+    )
+
+    assert(result.head == expected)
+  }
+
 /*
 
   test("string2chars(\"hello, world\")") {
@@ -124,47 +166,6 @@ class HuffmanSuite extends FunSuite {
 
 
 
-  test("makeOrderedLeafList for some frequency table") {
-    val list = List(('t', 2), ('e', 1), ('x', 3))
-
-    val result = makeOrderedLeafList(list)
-
-    assert(result === List(Leaf('e', 1), Leaf('t', 2), Leaf('x', 3)))
-  }
-
-  test("combine of some leaf list") {
-    val leaflist = List(Leaf('e', 1), Leaf('t', 2), Leaf('x', 4))
-
-    val result = combine(leaflist)
-
-    val expected = List(
-      Fork(
-        Leaf('e',1), 
-        Leaf('t',2), 
-        List('e', 't'), 3), 
-      Leaf('x',4))
-
-    assert(result == expected)
-  }
-
-  test("until") {
-
-    val list = List(Leaf('e', 1), Leaf('t', 2), Leaf('x', 4))
-
-    val result = until(singleton, combine)(list)
-
-    val expected =
-      Fork(
-        Leaf('x', 4), 
-        Fork(
-          Leaf('t', 2), 
-          Leaf('e', 1), 
-          List('t', 'e'), 3), 
-        List('x', 't', 'e'), 7)
-
-
-    assert(result == expected)
-  }
   
   test("my times") {
     val input = "cc adbea babcd aaba edd bc ab a cbaa"
