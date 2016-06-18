@@ -269,24 +269,36 @@ object Huffman {
     def traverse(remaining: CodeTree, bitsSoFar: List[Bit]): CodeTable = {
       remaining match {
         case Leaf(char, _) => List((char, bitsSoFar))
-        case Fork(left, right, chars, _) => mergeCodeTables(traverse(left, 0 :: bitsSoFar), traverse(right, 1 :: bitsSoFar))
+        case Fork(left, right, chars, _) => mergeCodeTables(traverse(right, 1 :: bitsSoFar), traverse(left, 0 :: bitsSoFar))
       }
     }
     traverse(tree, List())
   }
   
+
+
   /**
   * This function takes two code tables and merges them into one. Depending on how you
   * use it in the `convert` method above, this merge method might also do some transformations
   * on the two parameter code tables.
   */
-  def mergeCodeTables(a: CodeTable, b: CodeTable): CodeTable = {
+  def xmergeCodeTables(a: CodeTable, b: CodeTable): CodeTable = {
     def insert(item: CodeTableItem, table: CodeTable): CodeTable = {
       if(table.contains(item)) table
       else item :: table
     }
     if(b.isEmpty) a
     else insert(b.head, mergeCodeTables(a, b.tail))
+  }
+
+  def mergeCodeTables(a: CodeTable, b: CodeTable): CodeTable = {
+    def insert(item: CodeTableItem, table: CodeTable): CodeTable = {
+      if(table.contains(item)) table
+      else item :: table
+    }
+
+    if(a.isEmpty) b
+    else insert(a.head, mergeCodeTables(b, a.tail))
   }
   
   /**

@@ -278,11 +278,28 @@ class HuffmanSuite extends FunSuite {
 
 
   test("convert builds a code table") {
-    val tree = Fork(Leaf('a',2), Leaf('b',3), List('a','b'), 5)
+    val tree = Fork(Leaf('a', 2), Leaf('b', 3), List('a', 'b'), 5)
 
     val result = convert(tree)
 
     assert(result === List(('b', List(1)), ('a', List(0))))
+  }
+
+
+  test("convert test") {
+    val tree = 
+      Fork(
+        Fork(
+          Leaf('a', 2), 
+          Leaf('b', 3),
+          List('a', 'b'), 5),
+        Leaf('d', 10),
+        List('a', 'b', 'd'), 15)
+
+    val result = convert(tree)
+
+    assert(result === List(('d', List(1)), ('b', List(1, 0)), ('a', List(0, 0))))
+
   }
 
   test("mergeCodeTables merges two different code tables") {
@@ -300,10 +317,10 @@ class HuffmanSuite extends FunSuite {
     val result = mergeCodeTables(codeTable1, codeTable2)
 
     val expected = List(
-      ('x', List(1, 1, 1, 1)),
-      ('a', List(1, 1, 0, 0)),
       ('b', List(1, 0, 0, 0)),
-      ('c', List(0, 1, 0, 0))
+      ('a', List(1, 1, 0, 0)),
+      ('c', List(0, 1, 0, 0)),
+      ('x', List(1, 1, 1, 1))
     )
 
     assert(result === expected)
