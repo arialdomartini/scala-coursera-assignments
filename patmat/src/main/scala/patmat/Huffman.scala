@@ -259,6 +259,7 @@ object Huffman {
   
   // Part 4b: Encoding using code table
 
+  type CodeTableItem = (Char, List[Bit])
   type CodeTable = List[(Char, List[Bit])]
 
   /**
@@ -282,7 +283,14 @@ object Huffman {
   * use it in the `convert` method above, this merge method might also do some transformations
   * on the two parameter code tables.
   */
-  def mergeCodeTables(a: CodeTable, b: CodeTable): CodeTable = ???
+  def mergeCodeTables(a: CodeTable, b: CodeTable): CodeTable = {
+    def insert(item: CodeTableItem, table: CodeTable): CodeTable = {
+      if(table.contains(item)) table
+      else item :: table
+    }
+    if(b.isEmpty) a
+    else insert(b.head, mergeCodeTables(a, b.tail))
+  }
   
   /**
   * This function encodes `text` according to the code tree `tree`.

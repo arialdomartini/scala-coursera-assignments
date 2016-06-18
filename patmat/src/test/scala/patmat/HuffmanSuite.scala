@@ -232,4 +232,28 @@ class HuffmanSuite extends FunSuite {
     assert(codeBits(codeTable)('b') == List(1, 0, 0, 0))
     assert(codeBits(codeTable)('c') == List(0, 1, 0, 0))
   }
+
+  test("mergeCodeTables merges two different code tables") {
+    val codeTable1 = List(
+      ('a', List(1, 1, 0, 0)),
+      ('b', List(1, 0, 0, 0)),
+      ('c', List(0, 1, 0, 0))
+    )
+    val codeTable2 = List(
+      ('b', List(1, 0, 0, 0)),
+      ('a', List(1, 1, 0, 0)),
+      ('x', List(1, 1, 1, 1))
+    )
+    
+    val result = mergeCodeTables(codeTable1, codeTable2)
+
+    val expected = List(
+      ('x', List(1, 1, 1, 1)),
+      ('a', List(1, 1, 0, 0)),
+      ('b', List(1, 0, 0, 0)),
+      ('c', List(0, 1, 0, 0))
+    )
+
+    assert(result === expected)
+  }
 }
