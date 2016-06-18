@@ -269,7 +269,7 @@ object Huffman {
     def traverse(remaining: CodeTree, bitsSoFar: List[Bit]): CodeTable = {
       remaining match {
         case Leaf(char, _) => List((char, bitsSoFar))
-        case Fork(left, right, chars, _) => mergeCodeTables(traverse(right, 1 :: bitsSoFar), traverse(left, 0 :: bitsSoFar))
+        case Fork(left, right, _, _) => mergeCodeTables(traverse(right, bitsSoFar :+ 1), traverse(left, bitsSoFar :+ 0))
       }
     }
     traverse(tree, List())

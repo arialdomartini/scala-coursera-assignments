@@ -298,7 +298,7 @@ class HuffmanSuite extends FunSuite {
 
     val result = convert(tree)
 
-    assert(result === List(('d', List(1)), ('b', List(1, 0)), ('a', List(0, 0))))
+    assert(result === List(('d', List(1)), ('b', List(0, 1)), ('a', List(0, 0))))
 
   }
 
