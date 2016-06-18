@@ -147,6 +147,45 @@ class HuffmanSuite extends FunSuite {
     assert(result == expected)
   }
 
+  test("until") {
+    /*
+    Fork(
+      Fork(
+        Leaf(e,1),
+        Leaf(t,2),
+        List(e, t), 3),
+      Leaf(x,4),
+      List(e, t, x),7)
+
+    List(
+      Fork(
+        Fork(
+          Leaf(e,1),
+          Leaf(t,2),
+          List(e, t), 3),
+        Leaf(x,4),
+        List(e, t, x),6)
+    )
+    */
+
+    val list = List(Leaf('e', 1), Leaf('t', 2), Leaf('x', 4))
+
+    val result = until(singleton, combine)(list)
+
+    val expected =
+      Fork(
+        Fork(
+          Leaf('e',1), 
+          Leaf('t',2), 
+          List('e', 't'), 3), 
+        Leaf('x',4),
+        List('e', 't', 'x'), 7)
+
+
+    assert(result == expected)
+  }
+  
+
   /*
   test("decode and encode a very short text should be identity") {
   new TestTrees {
