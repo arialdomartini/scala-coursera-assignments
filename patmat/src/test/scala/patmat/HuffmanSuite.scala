@@ -210,11 +210,15 @@ class HuffmanSuite extends FunSuite {
   test("decodedSecret should return the frenchCode") {
     assert(decodedSecret == string2Chars("huffmanestcool"))
   }
-  /*
+
   test("decode and encode a very short text should be identity") {
-  new TestTrees {
-  assert(decode(t1, encode(t1)("ab".toList)) === "ab".toList)
+    new TestTrees {
+      val tree = Fork(Leaf('a',2), Leaf('b',3), List('a','b'), 5)
+
+      val result = decode(tree, encode(t1)("ab".toList))
+
+      assert(result === "ab".toList)
+    }
   }
-  }
-  */
+
 }

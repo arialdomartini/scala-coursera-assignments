@@ -18,9 +18,15 @@ object Huffman {
    * present in the leaves below it. The weight of a `Fork` node is the sum of the weights of these
    * leaves.
    */
-  abstract class CodeTree
-  case class Fork(left: CodeTree, right: CodeTree, chars: List[Char], weight: Int) extends CodeTree
-  case class Leaf(char: Char, weight: Int) extends CodeTree
+  abstract class CodeTree {
+    def contains(char: Char): Boolean
+  }
+  case class Fork(left: CodeTree, right: CodeTree, chars: List[Char], weight: Int) extends CodeTree {
+    def contains(char: Char): Boolean = chars.contains(char)
+  }
+  case class Leaf(char: Char, weight: Int) extends CodeTree {
+    def contains(c: Char): Boolean = char == c
+  }
   
 
   // Part 1: Basics
@@ -237,7 +243,19 @@ object Huffman {
   * This function encodes `text` using the code tree `tree`
   * into a sequence of bits.
   */
-  def encode(tree: CodeTree)(text: List[Char]): List[Bit] = ???
+  def encode(tree: CodeTree)(text: List[Char]): List[Bit] = {
+    def traverse(text: List[Char]): List[Bit] = {
+      if(text.isEmpty) List()
+      else {
+        tree match {
+          case Fork(left, right, _, _) if(left.contains(text.head)) => 0 :: traverse(text.tail)
+          case Fork(left, right, _, _) if(right.contains(text.head)) => 1 :: traverse(text.tail)
+          case Leaf(char, _) => traverse(text.tail)
+        }
+      }
+    }
+    traverse(text)
+  }
   
   // Part 4b: Encoding using code table
 
