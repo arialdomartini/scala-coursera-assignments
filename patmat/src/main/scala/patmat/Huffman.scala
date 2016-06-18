@@ -31,23 +31,17 @@ object Huffman {
 
   // Part 1: Basics
   def weight(tree: CodeTree): Int = {
-    def weight(tree: CodeTree, acc: Int): Int = {
     tree match {
-        case Leaf(_, weightOfLeaf) => acc + weightOfLeaf
-        case Fork(left, right, _, _) => weight(left, acc) + weight(right, acc)
-      }
+      case Leaf(_, weightOfLeaf) => weightOfLeaf
+      case Fork(_, _, _, weightOfFork) => weightOfFork
     }
-    weight(tree, 0)
   }
   
   def chars(tree: CodeTree): List[Char] = {
-    def chars(tree: CodeTree, acc: List[Char]): List[Char] = {
-      tree match {
-        case Leaf(char, _) => char :: acc
-        case Fork(left, right, _, _) => chars(left, acc) union chars(right, acc) 
-      }
+    tree match {
+      case Leaf(char, _) => List(char)
+      case Fork(_, _, chars, _) => chars
     }
-    chars(tree, List())
   }
   
   def makeCodeTree(left: CodeTree, right: CodeTree) =
@@ -110,7 +104,7 @@ object Huffman {
       if(chars.isEmpty) acc
       else times(chars.tail, countChar(chars.head, acc))
     }
-    times(chars, List())
+    sortTimes(times(chars, List()))
   }
 
 
@@ -125,13 +119,25 @@ object Huffman {
   def insert(element: Leaf, list: List[Leaf]): List[Leaf] = {
     if(list.isEmpty) List(element)
     else 
-      if(element.weight < list.head.weight) element :: list
+      if(element.weight > list.head.weight) element :: list
       else list.head :: insert(element, list.tail)
   }
 
   def sort(list: List[Leaf]): List[Leaf] = {
     if(list.isEmpty) list
     else insert(list.head, sort(list.tail))
+  }
+
+  def insertTimes(element: (Char, Int), list: List[(Char, Int)]): List[(Char, Int)] = {
+    if(list.isEmpty) List(element)
+    else 
+        if(element._2 > list.head._2) element :: list
+      else list.head :: insertTimes(element, list.tail)
+  }
+
+  def sortTimes(list: List[(Char, Int)]): List[(Char, Int)] = {
+    if(list.isEmpty) list
+    else insertTimes(list.head, sortTimes(list.tail))
   }
   
   /**
@@ -142,7 +148,7 @@ object Huffman {
   * of a leaf is the frequency of the character.
   */
   def makeOrderedLeafList(freqs: List[(Char, Int)]): List[Leaf] = {
-    sort(makeLeafList(freqs))
+    freqs.sortWith((e1, e2) => e1._2 < e2._2).map((e) => Leaf(e._1, e._2))
   }
   
   /**
@@ -150,8 +156,6 @@ object Huffman {
   */
   def singleton(trees: List[CodeTree]): Boolean = ! trees.isEmpty && trees.tail.isEmpty
   
-  def firstTwoElements(trees: List[CodeTree]) = List(trees.head, trees.tail.head)
-
   /**
   * The parameter `trees` of this function is a list of code trees ordered
   * by ascending weights.
@@ -165,8 +169,10 @@ object Huffman {
   * unchanged.
   */
   def combine(trees: List[CodeTree]): List[CodeTree] = {
-    val firstTwo = firstTwoElements(trees)
-    makeCodeTree(firstTwo.head, firstTwo.tail.head) :: trees.tail.tail
+    trees match {
+      case first :: second :: rest =>  (makeCodeTree(first, second) :: rest).sortWith((e1, e2) => weight(e1) < weight(e2))
+      case _ => trees
+    }
   }
   
   /**
@@ -186,19 +192,17 @@ object Huffman {
   *    the example invocation. Also define the return type of the `until` function.
   *  - try to find sensible parameter names for `xxx`, `yyy` and `zzz`.
   */
-  def until(condition: List[CodeTree] => Boolean, reduce: List[CodeTree] => List[CodeTree])(tree: List[CodeTree]): CodeTree =
-      if(condition(tree)) tree.head
+  def until(condition: List[CodeTree] => Boolean, reduce: List[CodeTree] => List[CodeTree])(tree: List[CodeTree]): List[CodeTree] =
+      if(condition(tree)) tree
       else until(condition, reduce)(reduce(tree))
-  
   /**
   * This function creates a code tree which is optimal to encode the text `chars`.
   *
   * The parameter `chars` is an arbitrary text. This function extracts the character
   * frequencies from that text and creates a code tree based on them.
   */
-  def createCodeTree(chars: List[Char]): CodeTree = until(singleton, combine)(makeOrderedLeafList(times(chars)))
+  def createCodeTree(chars: List[Char]): CodeTree = until(singleton, combine)(makeOrderedLeafList(times(chars))).head
   
-
   // Part 3: Decoding
 
   type Bit = Int

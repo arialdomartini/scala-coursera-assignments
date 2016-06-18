@@ -15,30 +15,31 @@ class HuffmanSuite extends FunSuite {
   }
 
   test("weight of a single leaf") {
-    val leaf = Leaf('a',2)
+    val leaf = Leaf('a', 2)
     assert(weight(leaf) === 2)
   }
 
   test("weight of a larger tree") {
-    new TestTrees {
-      assert(weight(t1) === 5)
-    }
+	val t1 = Fork(Leaf('a',2), Leaf('b',3), List('a','b'), 5)
+
+    assert(weight(t1) === 5)
   }
 
   test("should calculate the number of chars in a tree") {
-    val tree = Fork(Fork(Leaf('a',2), Leaf('b',3), List('a','b'), 5), Leaf('c',4), List('a','b','c'), 9)
+    val tree = Fork(Fork(Leaf('a', 2), Leaf('b', 3), List('a','b'), 5), Leaf('c', 4), List('a','b','c'), 9)
 
     val result = chars(tree)
 
     assert(result === List('a', 'b', 'c'))
   }
 
-
   test("chars of a larger tree") {
     new TestTrees {
       assert(chars(t2) === List('a','b','d'))
     }
   }
+
+/*
 
   test("string2chars(\"hello, world\")") {
     assert(string2Chars("hello, world") === List('h', 'e', 'l', 'l', 'o', ',', ' ', 'w', 'o', 'r', 'l', 'd'))
@@ -100,36 +101,12 @@ class HuffmanSuite extends FunSuite {
     assert(result === List(Leaf('e', 1), Leaf('t', 2), Leaf('x', 3)))
   }
 
-  test("should insert a leaf in the right position in an ordered list") {
-    val list = List(Leaf('c', 1), Leaf('a', 3), Leaf('d', 5))
-
-    val result = insert(Leaf('b', 4), list)
-
-    assert(result === List(Leaf('c', 1), Leaf('a', 3), Leaf('b', 4), Leaf('d', 5)))
-  }
-
-  test("should order a list of Leafs") {
-    val list = List(Leaf('d', 5), Leaf('f', 15), Leaf('c', 1), Leaf('a', 3))
-
-    val result = sort(list)
-
-    assert(result == List(Leaf('c', 1), Leaf('a', 3), Leaf('d', 5), Leaf('f', 15)))
-  }
-
   test("singleton should detect wether a list contains only one or more code tree") {
     assert(singleton( List(Leaf('a', 1)) ) == true)
 
     assert(singleton( List(Leaf('a', 1), Leaf('b', 5)) ) == false)
 
     assert(singleton( List() ) == false)
-  }
-
-  test("finds the first two elements") {
-    val list = List(Leaf('e', 1), Leaf('t', 2), Leaf('x', 4))
-
-    val result = firstTwoElements(list)
-
-    assert(result == List(Leaf('e', 1), Leaf('t', 2)))
   }
 
   test("combine of some leaf list") {
@@ -148,25 +125,6 @@ class HuffmanSuite extends FunSuite {
   }
 
   test("until") {
-    /*
-    Fork(
-      Fork(
-        Leaf(e,1),
-        Leaf(t,2),
-        List(e, t), 3),
-      Leaf(x,4),
-      List(e, t, x),7)
-
-    List(
-      Fork(
-        Fork(
-          Leaf(e,1),
-          Leaf(t,2),
-          List(e, t), 3),
-        Leaf(x,4),
-        List(e, t, x),6)
-    )
-    */
 
     val list = List(Leaf('e', 1), Leaf('t', 2), Leaf('x', 4))
 
@@ -174,12 +132,12 @@ class HuffmanSuite extends FunSuite {
 
     val expected =
       Fork(
+        Leaf('x', 4), 
         Fork(
-          Leaf('e',1), 
-          Leaf('t',2), 
-          List('e', 't'), 3), 
-        Leaf('x',4),
-        List('e', 't', 'x'), 7)
+          Leaf('t', 2), 
+          Leaf('e', 1), 
+          List('t', 'e'), 3), 
+        List('x', 't', 'e'), 7)
 
 
     assert(result == expected)
@@ -192,13 +150,75 @@ class HuffmanSuite extends FunSuite {
 
     val expected =
       Fork(
-        Fork(
-          Leaf('e',1), 
-          Leaf('t',2), 
-          List('e', 't'), 3), 
         Leaf('x',4),
-        List('e', 't', 'x'), 7)
+        Fork(
+          Leaf('t', 2),
+          Leaf('e', 1),
+          List('t', 'e'), 3
+        ),
+        List('x', 't', 'e'), 7
+      )
 
+    assert(result == expected)
+  }
+
+  test("my times") {
+    val input = "cc adbea babcd aaba edd bc ab a cbaa"
+    // 10 a
+    // 8 space
+    // 7 b
+    // 5 c
+    // 4 d
+    // 2 e
+
+    val expected = List(('a', 10), (' ', 8), ('b', 7), ('c', 5), ('d', 4), ('e', 2))
+
+    assert(times(input.toList) === expected)
+  }
+  
+  test("creates a complete tree starting from a string, another more complex case") {
+    val input = "cc adbea babcd aaba edd bc ab a cbaa"
+    // 10 a
+    // 8 space
+    // 7 b
+    // 5 c
+    // 4 d
+    // 2 e
+
+    val result = createCodeTree(string2Chars(input))
+
+    val expected = 
+      Fork(
+        Fork(
+          Fork(
+            Fork(
+              Fork(
+                Leaf('e', 2),
+                Leaf('d', 4),
+                List('e', 'd') ,6),
+              Leaf('c', 5),
+              List('e', 'd', 'c'), 11),
+            Leaf('b', 7),
+            List('e', 'd', 'c', 'b'), 18),
+          Leaf(' ', 8),
+          List('e', 'd', 'c', 'b', ' ' ) ,26),
+        Leaf('a', 10),
+        List('e', 'd', 'c', 'b',' ' , 'a'),36)
+
+    assert(result == expected)
+  }
+
+  test("creates a complete tree starting from a string, simple case") {
+    val input = "aaaaxaaaxaaa"
+    // 10 a
+    // 2 x
+
+    val result = createCodeTree(string2Chars(input))
+
+    val expected = Fork(
+      Leaf('a', 10),
+      Leaf('x', 2),
+      List('a', 'x'),12)
 
     assert(result == expected)
   }
@@ -212,13 +232,13 @@ class HuffmanSuite extends FunSuite {
   }
 
   test("decode and encode a very short text should be identity") {
-    new TestTrees {
-      val tree = Fork(Leaf('a',2), Leaf('b',3), List('a','b'), 5)
+    val tree = Fork(Leaf('a', 2), Leaf('b', 3), List('a','b'), 5)
 
-      val result = decode(tree, encode(tree)("ab".toList))
+    val encoded = encode(tree)("ab".toList)
 
-      assert(result === "ab".toList)
-    }
+    val result = decode(tree, encoded)
+
+    assert(result === "ab".toList)
   }
 
   test("codeBits returns the bits representation of a char based on a codeTable") {
@@ -266,13 +286,16 @@ class HuffmanSuite extends FunSuite {
     assert(result === expected)
   }
 
-  test("quick encode") {
-    new TestTrees {
-      val tree = Fork(Leaf('a',2), Leaf('b',3), List('a','b'), 5)
+  test("my decode and quick encode is identity") {
+    val baseForCodeTree = string2Chars("ture from 45 BC, making it over 2000 years old. Richard Mc")
+    val text = string2Chars("ture from 45 BC, making it over 2000 years old. Richard Mc")
+    val codeTree = createCodeTree(baseForCodeTree)
 
-      val result = decode(tree, quickEncode(tree)("ab".toList))
-
-      assert(result === "ab".toList)
-    }
+    assert(decode(codeTree, quickEncode(codeTree)(text) ) === text )
   }
+
+  test("should encode") {
+    
+  }
+  */
 }
