@@ -202,15 +202,15 @@ object Huffman {
   * the resulting list of characters.
   */
   def decode(root: CodeTree, bits: List[Bit]): List[Char] = {
-    def traverse(remaining: CodeTree, bits: List[Bit], list: List[Char]): List[Char] = {
+    def traverse(remaining: CodeTree, bits: List[Bit]): List[Char] = {
       remaining match {
-        case Leaf(char, _) if(bits.isEmpty) => char :: list
-        case Leaf(char, _) => char:: traverse(root, bits, list)
-        case Fork(left, right, _, _) if(bits.head == 0) => traverse(left, bits.tail, list)
-        case Fork(left, right, _, _) if(bits.head == 1) => traverse(right, bits.tail, list)
+        case Leaf(char, _) if(bits.isEmpty) => List(char)
+        case Leaf(char, _) => char :: traverse(root, bits)
+        case Fork(left, right, _, _) if(bits.head == 0) => traverse(left, bits.tail)
+        case Fork(left, right, _, _) if(bits.head == 1) => traverse(right, bits.tail)
       }
     }
-    traverse(root, bits, List())
+    traverse(root, bits)
   }
   
   /**
