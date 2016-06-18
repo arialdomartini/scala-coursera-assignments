@@ -215,7 +215,7 @@ class HuffmanSuite extends FunSuite {
     new TestTrees {
       val tree = Fork(Leaf('a',2), Leaf('b',3), List('a','b'), 5)
 
-      val result = decode(tree, encode(t1)("ab".toList))
+      val result = decode(tree, encode(tree)("ab".toList))
 
       assert(result === "ab".toList)
     }
@@ -231,6 +231,15 @@ class HuffmanSuite extends FunSuite {
     assert(codeBits(codeTable)('a') == List(1, 1, 0, 0))
     assert(codeBits(codeTable)('b') == List(1, 0, 0, 0))
     assert(codeBits(codeTable)('c') == List(0, 1, 0, 0))
+  }
+
+
+  test("convert builds a code table") {
+    val tree = Fork(Leaf('a',2), Leaf('b',3), List('a','b'), 5)
+
+    val result = convert(tree)
+
+    assert(result === List(('b', List(1)), ('a', List(0))))
   }
 
   test("mergeCodeTables merges two different code tables") {
@@ -255,5 +264,15 @@ class HuffmanSuite extends FunSuite {
     )
 
     assert(result === expected)
+  }
+
+  test("quick encode") {
+    new TestTrees {
+      val tree = Fork(Leaf('a',2), Leaf('b',3), List('a','b'), 5)
+
+      val result = decode(tree, quickEncode(tree)("ab".toList))
+
+      assert(result === "ab".toList)
+    }
   }
 }

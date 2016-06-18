@@ -278,9 +278,9 @@ object Huffman {
   */
   def convert(tree: CodeTree): CodeTable = {
     def traverse(remaining: CodeTree, bitsSoFar: List[Bit]): CodeTable = {
-      tree match {
-        case Fork(left, right, chars, _) => mergeCodeTables(traverse(left, bitsSoFar), traverse(right, bitsSoFar))
+      remaining match {
         case Leaf(char, _) => List((char, bitsSoFar))
+        case Fork(left, right, chars, _) => mergeCodeTables(traverse(left, 0 :: bitsSoFar), traverse(right, 1 :: bitsSoFar))
       }
     }
     traverse(tree, List())
@@ -306,5 +306,14 @@ object Huffman {
   * To speed up the encoding process, it first converts the code tree to a code table
   * and then uses it to perform the actual encoding.
   */
-  def quickEncode(tree: CodeTree)(text: List[Char]): List[Bit] = ???
+  def quickEncode(tree: CodeTree)(text: List[Char]): List[Bit] = {
+    val codeTable = convert(tree)
+    
+    def quickEncode2(tree: CodeTree)(text: List[Char]): List[Bit] = {
+      if(text.isEmpty) List()
+      else codeBits(codeTable)(text.head) union quickEncode(tree)(text.tail)
+    }
+    quickEncode2(tree)(text)
+    
+  }
 }
