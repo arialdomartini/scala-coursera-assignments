@@ -201,20 +201,20 @@ object Huffman {
   * This function decodes the bit sequence `bits` using the code tree `tree` and returns
   * the resulting list of characters.
   */
-  def decode(tree: CodeTree, bits: List[Bit]): List[Char] = {
-    def decode(tree: CodeTree, bits: List[Bit], root: CodeTree, list: List[Char]): List[Char] = {
-      tree match {
+  def decode(root: CodeTree, bits: List[Bit]): List[Char] = {
+    def traverse(remaining: CodeTree, bits: List[Bit], list: List[Char]): List[Char] = {
+      remaining match {
         case Leaf(char, _) => {
           if(bits.isEmpty) char :: list
-          else char:: decode(root, bits, root, list)
+          else char:: traverse(root, bits, list)
         }
         case Fork(left, right, _, _) => {
-          if(bits.head == 0) decode(left, bits.tail, root, list)
-          else decode(right, bits.tail, root, list)
+          if(bits.head == 0) traverse(left, bits.tail, list)
+          else traverse(right, bits.tail, list)
         }
       }
     }
-    decode(tree, bits, tree, List())
+    traverse(root, bits, List())
   }
   
   /**
