@@ -104,7 +104,7 @@ object Huffman {
       if(chars.isEmpty) acc
       else times(chars.tail, countChar(chars.head, acc))
     }
-    sortTimes(times(chars, List()))
+    times(chars, List()).sortWith((a, b) => a._2 < b._2)
   }
 
 
@@ -189,30 +189,6 @@ object Huffman {
   
 
 ////////// to be reviewed
-
-  def insert(element: Leaf, list: List[Leaf]): List[Leaf] = {
-    if(list.isEmpty) List(element)
-    else 
-      if(element.weight > list.head.weight) element :: list
-      else list.head :: insert(element, list.tail)
-  }
-
-  def sort(list: List[Leaf]): List[Leaf] = {
-    if(list.isEmpty) list
-    else insert(list.head, sort(list.tail))
-  }
-
-  def insertTimes(element: (Char, Int), list: List[(Char, Int)]): List[(Char, Int)] = {
-    if(list.isEmpty) List(element)
-    else 
-        if(element._2 > list.head._2) element :: list
-      else list.head :: insertTimes(element, list.tail)
-  }
-
-  def sortTimes(list: List[(Char, Int)]): List[(Char, Int)] = {
-    if(list.isEmpty) list
-    else insertTimes(list.head, sortTimes(list.tail))
-  }
   
   
   // Part 3: Decoding

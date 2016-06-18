@@ -72,7 +72,7 @@ class HuffmanSuite extends FunSuite {
 
     val result = times(list)
 
-    assert(result === List(('a', 2), ('b', 1)))
+    assert(result === List(('b', 1), ('a', 2)))
   }
 
   test("makeLeafList for a frequency table with one single element") {
