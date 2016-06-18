@@ -185,7 +185,23 @@ class HuffmanSuite extends FunSuite {
     assert(result == expected)
   }
   
+  test("creates a complete tree starting from a string") {
+    val input = "ettxxxx"
 
+    val result = createCodeTree(string2Chars(input))
+
+    val expected =
+      Fork(
+        Fork(
+          Leaf('e',1), 
+          Leaf('t',2), 
+          List('e', 't'), 3), 
+        Leaf('x',4),
+        List('e', 't', 'x'), 7)
+
+
+    assert(result == expected)
+  }
   /*
   test("decode and encode a very short text should be identity") {
   new TestTrees {
