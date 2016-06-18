@@ -75,11 +75,47 @@ class HuffmanSuite extends FunSuite {
 
     assert(result === List(('a', 2), ('b', 1)))
   }
-  /*
-test("makeOrderedLeafList for some frequency table") {
-assert(makeOrderedLeafList(List(('t', 2), ('e', 1), ('x', 3))) === List(Leaf('e',1), Leaf('t',2), Leaf('x',3)))
-}
 
+  test("makeLeafList for a frequency table with one single element") {
+    val list = List(('t', 11))
+
+    val result = makeLeafList(list)
+
+    assert(result === List(Leaf('t', 11)))
+  }
+
+  test("makeLeafList for some frequency table") {
+    val list = List(('t', 2), ('e', 1), ('x', 3))
+
+    val result = makeLeafList(list)
+
+    assert(result === List(Leaf('t', 2), Leaf('e', 1), Leaf('x', 3)))
+  }
+
+  test("makeOrderedLeafList for some frequency table") {
+    val list = List(('t', 2), ('e', 1), ('x', 3))
+
+    val result = makeOrderedLeafList(list)
+
+    assert(result === List(Leaf('e', 1), Leaf('t', 2), Leaf('x', 3)))
+  }
+
+  test("should insert a leaf in the right position in an ordered list") {
+    val list = List(Leaf('c', 1), Leaf('a', 3), Leaf('d', 5))
+
+    val result = insert(Leaf('b', 4), list)
+
+    assert(result === List(Leaf('c', 1), Leaf('a', 3), Leaf('b', 4), Leaf('d', 5)))
+  }
+
+  test("should order a list of Leafs") {
+    val list = List(Leaf('d', 5), Leaf('f', 15), Leaf('c', 1), Leaf('a', 3))
+
+    val result = sort(list)
+
+    assert(result == List(Leaf('c', 1), Leaf('a', 3), Leaf('d', 5), Leaf('f', 15)))
+  }
+  /*
 
 test("combine of some leaf list") {
 val leaflist = List(Leaf('e', 1), Leaf('t', 2), Leaf('x', 4))
