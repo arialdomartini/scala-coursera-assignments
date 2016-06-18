@@ -115,6 +115,14 @@ class HuffmanSuite extends FunSuite {
 
     assert(result == List(Leaf('c', 1), Leaf('a', 3), Leaf('d', 5), Leaf('f', 15)))
   }
+
+  test("singleton should detect wether a list contains only one or more code tree") {
+    assert(singleton( List(Leaf('a', 1)) ) == true)
+
+    assert(singleton( List(Leaf('a', 1), Leaf('b', 5)) ) == false)
+
+    assert(singleton( List() ) == false)
+  }
   /*
 
 test("combine of some leaf list") {
