@@ -178,6 +178,16 @@ object Huffman {
       if(condition(tree)) tree
       else until(condition, reduce)(reduce(tree))
 
+
+  /**
+  * This function creates a code tree which is optimal to encode the text `chars`.
+  *
+  * The parameter `chars` is an arbitrary text. This function extracts the character
+  * frequencies from that text and creates a code tree based on them.
+  */
+  def createCodeTree(chars: List[Char]): CodeTree = until(singleton, combine)(makeOrderedLeafList(times(chars))).head
+  
+
 ////////// to be reviewed
 
   def insert(element: Leaf, list: List[Leaf]): List[Leaf] = {
@@ -204,14 +214,6 @@ object Huffman {
     else insertTimes(list.head, sortTimes(list.tail))
   }
   
-  
-  /**
-  * This function creates a code tree which is optimal to encode the text `chars`.
-  *
-  * The parameter `chars` is an arbitrary text. This function extracts the character
-  * frequencies from that text and creates a code tree based on them.
-  */
-  def createCodeTree(chars: List[Char]): CodeTree = until(singleton, combine)(makeOrderedLeafList(times(chars))).head
   
   // Part 3: Decoding
 

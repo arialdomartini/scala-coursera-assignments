@@ -141,6 +141,44 @@ class HuffmanSuite extends FunSuite {
     assert(result.head == expected)
   }
 
+
+  test("creates a complete tree starting from a string, another more complex case") {
+    val input = "cc adbea babcd aaba edd bc ab a cbaa"
+    // 10 a
+    // 8 space
+    // 7 b
+    // 5 c
+    // 4 d
+    // 2 e
+
+    val result = createCodeTree(string2Chars(input))
+    val a = Leaf('a', 10)
+    val space = Leaf(' ', 8)
+    val b = Leaf('b', 7)
+    val c = Leaf('c', 5)
+    val d = Leaf('d', 4)
+    val e = Leaf('e', 2)
+
+    val expected = 
+      Fork(
+        Fork(b, space, List('b', ' ' ), 15),
+        Fork(a, Fork( c, Fork( e, d,
+              List('e', 'd'), 6),
+            List('c', 'e', 'd'), 11),
+          List('a', 'c', 'e', 'd'), 21),
+        List('b', ' ' , 'a', 'c', 'e', 'd'), 36)
+
+    assert(result == expected)
+  }
+  
+  test("createCodeTree") {
+    val a = Leaf('a', 3)
+    val b = Leaf('b', 2)
+    val c = Leaf('c', 1)
+    val cb = Fork(c, b, List('c', 'b'), 3)
+    val cba = Fork(cb, a, List('c', 'b', 'a'), 6)
+    assert(createCodeTree(List('a', 'b', 'a', 'c', 'b', 'a')) === cba)
+  }
 /*
 
   test("string2chars(\"hello, world\")") {
@@ -187,37 +225,6 @@ class HuffmanSuite extends FunSuite {
 
     assert(times(input.toList) === expected)
   }
-  
-  test("creates a complete tree starting from a string, another more complex case") {
-    val input = "cc adbea babcd aaba edd bc ab a cbaa"
-    // 10 a
-    // 8 space
-    // 7 b
-    // 5 c
-    // 4 d
-    // 2 e
-
-    val result = createCodeTree(string2Chars(input))
-
-    val expected = 
-      Fork(
-        Fork(
-          Fork(
-            Fork(
-              Fork(
-                Leaf('e', 2),
-                Leaf('d', 4),
-                List('e', 'd') ,6),
-              Leaf('c', 5),
-              List('e', 'd', 'c'), 11),
-            Leaf('b', 7),
-            List('e', 'd', 'c', 'b'), 18),
-          Leaf(' ', 8),
-          List('e', 'd', 'c', 'b', ' ' ) ,26),
-        Leaf('a', 10),
-        List('e', 'd', 'c', 'b',' ' , 'a'),36)
-
-    assert(result == expected)
   }
 
   test("creates a complete tree starting from a string, simple case") {
