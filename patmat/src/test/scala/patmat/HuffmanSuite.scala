@@ -38,7 +38,15 @@ class HuffmanSuite extends FunSuite {
       assert(chars(t2) === List('a','b','d'))
     }
   }
-
+  
+  test("REMOVE ME....................createCodeTree") {
+    val a = Leaf('a', 3)
+    val b = Leaf('b', 2)
+    val c = Leaf('c', 1)
+    val cb = Fork(c, b, List('c', 'b'), 3)
+    val cb_a = Fork(cb, a, List('c', 'b', 'a'), 6)
+    assert(createCodeTree(List('a', 'b', 'a', 'c', 'b', 'a')) === cb_a)
+  }
 
   test("creates a complete tree starting from a string") {
     val input = "ettxxxx"
@@ -47,15 +55,14 @@ class HuffmanSuite extends FunSuite {
 
     val expected =
       Fork(
-        Leaf('x',4),
         Fork(
-          Leaf('t', 2),
           Leaf('e', 1),
-          List('t', 'e'), 3
+          Leaf('t', 2),
+          List('e', 't'), 3
         ),
-        List('x', 't', 'e'), 7
+        Leaf('x',4),
+        List('e', 't', 'x'), 7
       )
-
     assert(result == expected)
   }
 
