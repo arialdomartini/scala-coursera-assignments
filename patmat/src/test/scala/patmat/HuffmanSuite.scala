@@ -202,6 +202,9 @@ class HuffmanSuite extends FunSuite {
 
     assert(result == expected)
   }
+  test("should decode the frenchCode") {
+    assert(decode(frenchCode, secret) == string2Chars("huffmanestcool"))
+  }
   /*
   test("decode and encode a very short text should be identity") {
   new TestTrees {
