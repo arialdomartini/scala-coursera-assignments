@@ -6,7 +6,9 @@ object Anagrams {
   type Word = String
   type Sentence = List[Word]
   type Occurrence = (Char, Int)
+  type Freq = Occurrence
   type Occurrences = List[Occurrence]
+  type Freqs = Occurrences
   val dictionary: List[Word] = loadDictionary
 
   def wordOccurrences(w: Word): Occurrences = {
@@ -99,9 +101,11 @@ object Anagrams {
    *  and has no zero-entries.
    */
   def subtract(x: Occurrences, y: Occurrences): Occurrences = {
-    def subtractSingle(x: Occurrences, occ: Occurrence): Occurrences = x match {
-      case List() => x
-      case head :: tail => if(head == occ) tail else head :: subtractSingle(tail, occ)
+    def subtractSingle(x: Occurrences, occ: Occurrence): Occurrences = (x, occ) match {
+      case (List(), _) => x
+      case (head :: tail, occ) if(head == occ) => tail
+      case ((char, count) :: tail, (occ_char, occ_count)) if(char == occ_char && count != occ_count) => (char, count - occ_count) :: tail
+      case (head :: tail, occ) => head :: subtractSingle(tail, occ)
     }
     y match {
       case List() => x
@@ -149,5 +153,23 @@ object Anagrams {
    *
    *  Note: There is only one anagram of an empty sentence.
    */
-  def sentenceAnagrams(sentence: Sentence): List[Sentence] = ???
+  def sentenceAnagrams(sentence: Sentence): List[Sentence] = {
+    def recur(freqs: Freqs): List[Sentence] = {
+      if (freqs.isEmpty) List(List())
+      else {
+        for {
+          combination <- combinations(freqs)
+          word <- wordsForComb(combination)
+          rest <- recur(subtract(freqs, combination))
+        } yield word :: rest
+      }
+    }
+
+    recur(sentenceOccurrences(sentence))
+  }
+
+  def wordsForComb(comb: Occurrences): List[Word] = {
+    if( dictionaryByOccurrences.contains(comb)) dictionaryByOccurrences(comb)
+    else List()
+  }
 }

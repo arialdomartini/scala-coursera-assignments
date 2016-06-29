@@ -139,11 +139,26 @@ class AnagramsSuite extends FunSuite with Matchers  {
     assert(subtract(lard, r) === lad)
   }
 
-/*
+  test("subtract: baaa - ba == aa") {
+    val baaa = List(('b', 1), ('a', 3))
+    val ba = List(('b', 1), ('a', 1))
+    val aa = List(('a', 2))
+    assert(subtract(baaa, ba) === aa)
+  }
+
 
   test("sentence anagrams: []") {
     val sentence = List()
-    assert(sentenceAnagrams(sentence) === List(Nil))
+    
+    val result = sentenceAnagrams(sentence)
+
+    assert(result === List(Nil))
+  }
+
+  test("words for combination") {
+    val result = wordsForComb(List(('n', 1), ('o', 1)))
+
+    assert(result === List("no", "on"))
   }
 
   test("sentence anagrams: Linux rulez") {
@@ -172,5 +187,4 @@ class AnagramsSuite extends FunSuite with Matchers  {
     )
     assert(sentenceAnagrams(sentence).toSet === anas.toSet)
   }
-*/
 }
