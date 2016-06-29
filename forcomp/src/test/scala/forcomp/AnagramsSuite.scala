@@ -67,8 +67,13 @@ class AnagramsSuite extends FunSuite with Matchers  {
     assert(result === List(('d', 1), ('o', 1), ('r', 1), ('w', 1)))
   }
 
+
   test("sentenceOccurrences: abcd e") {
     assert(sentenceOccurrences(List("abcd", "e")) === List(('a', 1), ('b', 1), ('c', 1), ('d', 1), ('e', 1)))
+  }
+
+  test("dictionaryByOccurrences.get: empty") {
+    assert(dictionaryByOccurrences(List(('x', 1000))) === List())
   }
 
   test("dictionaryByOccurrences.get: eat") {
@@ -154,19 +159,6 @@ class AnagramsSuite extends FunSuite with Matchers  {
 
     assert(result === List(Nil))
   }
-
-  test("words for combination") {
-    val result = wordsForComb(List(('n', 1), ('o', 1)))
-
-    assert(result === List("no", "on"))
-  }
-
-  test("words for combination, empty case") {
-    val result = wordsForComb(List(('x', 10), ('x', 1)))
-
-    assert(result === List())
-  }
-
 
   test("sentence anagrams: Linux rulez") {
     val sentence = List("Linux", "rulez")
