@@ -98,7 +98,16 @@ object Anagrams {
    *  Note: the resulting value is an occurrence - meaning it is sorted
    *  and has no zero-entries.
    */
-  def subtract(x: Occurrences, y: Occurrences): Occurrences = ???
+  def subtract(x: Occurrences, y: Occurrences): Occurrences = {
+    def subtractSingle(x: Occurrences, occ: Occurrence): Occurrences = x match {
+      case List() => x
+      case head :: tail => if(head == occ) tail else head :: subtractSingle(tail, occ)
+    }
+    y match {
+      case List() => x
+      case head :: tail => subtract(subtractSingle(x, head), tail)
+    }
+  }
 
   /** Returns a list of all anagram sentences of the given sentence.
    *

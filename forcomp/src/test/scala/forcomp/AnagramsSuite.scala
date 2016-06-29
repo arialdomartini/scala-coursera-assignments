@@ -132,13 +132,14 @@ class AnagramsSuite extends FunSuite with Matchers  {
     assert(combinations(abba).toSet === abbacomb.toSet)
   }
 
-/*
   test("subtract: lard - r") {
     val lard = List(('a', 1), ('d', 1), ('l', 1), ('r', 1))
     val r = List(('r', 1))
     val lad = List(('a', 1), ('d', 1), ('l', 1))
     assert(subtract(lard, r) === lad)
   }
+
+/*
 
   test("sentence anagrams: []") {
     val sentence = List()
