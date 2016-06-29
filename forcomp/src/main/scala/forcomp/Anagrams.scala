@@ -38,15 +38,9 @@ object Anagrams {
   lazy val dictionaryByOccurrences: Map[Occurrences, List[Word]] = 
     dictionary.
       map(w => (wordOccurrences(w), w)).
-      groupBy(x=> x._1).
-      mapValues(v => v.map(y=> y._2))
-/*{
-    dictionary.
-       map(word => (wordOccurrences(word), word)).
-       toList.
-       groupBy{case (occurrences, word) => occurrences}
-  }
-*/
+      groupBy{ case (occurrences, word) => occurrences }.
+      mapValues{ v => v.map{case (occurrences, word) => word} }
+
   /** Returns all the anagrams of a given word. */
   def wordAnagrams(word: Word): List[Word] = ???
 
