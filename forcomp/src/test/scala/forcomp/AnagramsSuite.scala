@@ -103,7 +103,15 @@ class AnagramsSuite extends FunSuite with Matchers  {
     result should contain theSameElementsAs expected
   }
 
-/*
+  test("suboccurrences") { 
+    val occurrence = ('a', 10)
+    val expected = List(('a', 1),  ('a', 2),  ('a', 3),  ('a', 4),  ('a', 5),  ('a', 6),  ('a', 7),  ('a', 8),  ('a', 9),  ('a', 10))
+
+    val result = suboccurrences(occurrence)
+
+    assert(result === expected )
+  }
+
   test("combinations: []") {
     assert(combinations(Nil) === List(Nil))
   }
@@ -124,7 +132,7 @@ class AnagramsSuite extends FunSuite with Matchers  {
     assert(combinations(abba).toSet === abbacomb.toSet)
   }
 
-
+/*
   test("subtract: lard - r") {
     val lard = List(('a', 1), ('d', 1), ('l', 1), ('r', 1))
     val r = List(('r', 1))
