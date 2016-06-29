@@ -15,6 +15,11 @@ commonSourcePackages += "common"
 
 courseId := "bRPXgjY9EeW6RApRXdjJPw"
 
+libraryDependencies += "com.lihaoyi" % "ammonite-repl" % "0.6.2" % "test" cross CrossVersion.full
+
+initialCommands in (Test, console) := """ammonite.repl.Main().run()"""
+
+
 // See documentation in ProgFunBuild.scala
 assignmentsMap := {
   val styleSheetPath = (baseDirectory.value / ".." / ".." / "project" / "scalastyle_config.xml").getPath

@@ -5,33 +5,10 @@ object Anagrams {
 
   type Word = String
   type Sentence = List[Word]
-
-  /** `Occurrences` is a `List` of pairs of characters and positive integers saying
-   *  how often the character appears.
-   *  This list is sorted alphabetically w.r.t. to the character in each pair.
-   *  All characters in the occurrence list are lowercase.
-   *
-   *  Any list of pairs of lowercase characters and their frequency which is not sorted
-   *  is **not** an occurrence list.
-   *
-   *  Note: If the frequency of some character is zero, then that character should not be
-   *  in the list.
-   */
   type Occurrence = (Char, Int)
   type Occurrences = List[Occurrence]
-
-  /** The dictionary is simply a sequence of words.
-   *  It is predefined and obtained as a sequence using the utility method `loadDictionary`.
-   */
   val dictionary: List[Word] = loadDictionary
 
-  /** Converts the word into its character occurrence list.
-   *
-   *  Note: the uppercase and lowercase version of the character are treated as the
-   *  same character, and are represented as a lowercase character in the occurrence list.
-   *
-   *  Note: you must use `groupBy` to implement this method!
-   */
   def wordOccurrences(w: Word): Occurrences = {
     stringToChars(w.toLowerCase).
       groupBy(c => c).
@@ -41,7 +18,6 @@ object Anagrams {
 
   def stringToChars(string: String): List[Char] = string.toList
 
-  /** Converts a sentence into its character occurrence list. */
   def sentenceOccurrences(s: Sentence): Occurrences = wordOccurrences(s.mkString(""))
 
   /** The `dictionaryByOccurrences` is a `Map` from different occurrences to a sequence of all
@@ -60,7 +36,13 @@ object Anagrams {
    *
    */
   lazy val dictionaryByOccurrences: Map[Occurrences, List[Word]] = ???
-
+/*{
+    dictionary.
+       map(word => (wordOccurrences(word), word)).
+       toList.
+       groupBy{case (occurrences, word) => occurrences}
+  }
+*/
   /** Returns all the anagrams of a given word. */
   def wordAnagrams(word: Word): List[Word] = ???
 
