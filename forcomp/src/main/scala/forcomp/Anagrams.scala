@@ -41,8 +41,16 @@ object Anagrams {
       groupBy{ case (occurrences, word) => occurrences }.
       mapValues{ v => v.map{case (occurrences, word) => word} }
 
-  /** Returns all the anagrams of a given word. */
   def wordAnagrams(word: Word): List[Word] = dictionaryByOccurrences(wordOccurrences(word))
+
+  def combs1(list: List[Int]): List[List[Int]] = list.toSet[Int].subsets.map(_.toList).toList
+  def combs(list: List[Int]): List[List[Int]] = list match {
+    case List() => List(Nil)
+    case head :: tail => {
+      val tails: List[List[Int]] = combs(tail)
+      tails ++ tails.map(l => head::l)
+    }
+  }
 
   /** Returns the list of all subsets of the occurrence list.
    *  This includes the occurrence itself, i.e. `List(('k', 1), ('o', 1))`

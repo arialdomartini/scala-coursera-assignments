@@ -1,14 +1,13 @@
 package forcomp
 
 import org.scalatest.FunSuite
-
 import org.junit.runner.RunWith
 import org.scalatest.junit.JUnitRunner
-
+import org.scalatest._
 import Anagrams._
 
 @RunWith(classOf[JUnitRunner])
-class AnagramsSuite extends FunSuite  {
+class AnagramsSuite extends FunSuite with Matchers  {
   test("should convert a string to a list of chars") {
     val string = "abc"
 
@@ -84,16 +83,27 @@ class AnagramsSuite extends FunSuite  {
     assert(wordAnagrams("player").toSet === Set("parley", "pearly", "player", "replay"))
   }
 
-/*
+  test("combs: []") {
+    val result = combs(List())
 
-  test("subtract: lard - r") {
-    val lard = List(('a', 1), ('d', 1), ('l', 1), ('r', 1))
-    val r = List(('r', 1))
-    val lad = List(('a', 1), ('d', 1), ('l', 1))
-    assert(subtract(lard, r) === lad)
+    assert(result === List(Nil))
   }
 
+  test("combs: [1, 2]") {
+    val list = List(1, 2)
+    val expected = List(
+      List(),
+      List(1),
+      List(2),
+      List(1, 2)
+    )
 
+    val result = combs(list)
+
+    result should contain theSameElementsAs expected
+  }
+
+/*
   test("combinations: []") {
     assert(combinations(Nil) === List(Nil))
   }
@@ -114,6 +124,13 @@ class AnagramsSuite extends FunSuite  {
     assert(combinations(abba).toSet === abbacomb.toSet)
   }
 
+
+  test("subtract: lard - r") {
+    val lard = List(('a', 1), ('d', 1), ('l', 1), ('r', 1))
+    val r = List(('r', 1))
+    val lad = List(('a', 1), ('d', 1), ('l', 1))
+    assert(subtract(lard, r) === lad)
+  }
 
   test("sentence anagrams: []") {
     val sentence = List()
