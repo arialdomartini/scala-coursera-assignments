@@ -161,6 +161,13 @@ class AnagramsSuite extends FunSuite with Matchers  {
     assert(result === List("no", "on"))
   }
 
+  test("words for combination, empty case") {
+    val result = wordsForComb(List(('x', 10), ('x', 1)))
+
+    assert(result === List())
+  }
+
+
   test("sentence anagrams: Linux rulez") {
     val sentence = List("Linux", "rulez")
     val anas = List(

@@ -37,11 +37,12 @@ object Anagrams {
    *    List(('a', 1), ('e', 1), ('t', 1)) -> Seq("ate", "eat", "tea")
    *
    */
-  lazy val dictionaryByOccurrences: Map[Occurrences, List[Word]] = 
-    dictionary.
-      map(w => (wordOccurrences(w), w)).
-      groupBy{ case (occurrences, word) => occurrences }.
-      mapValues{ v => v.map{case (occurrences, word) => word} }
+  lazy val dictionaryByOccurrences: Map[Occurrences, List[Word]] = dictionary.groupBy(word => wordOccurrences(word))
+
+  def wordsForComb(comb: Occurrences): List[Word] = {
+    if( dictionaryByOccurrences.contains(comb)) dictionaryByOccurrences(comb)
+    else List()
+  }
 
   def wordAnagrams(word: Word): List[Word] = dictionaryByOccurrences(wordOccurrences(word))
 
@@ -166,10 +167,5 @@ object Anagrams {
     }
 
     recur(sentenceOccurrences(sentence))
-  }
-
-  def wordsForComb(comb: Occurrences): List[Word] = {
-    if( dictionaryByOccurrences.contains(comb)) dictionaryByOccurrences(comb)
-    else List()
   }
 }
