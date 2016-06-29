@@ -41,6 +41,13 @@ class AnagramsSuite extends FunSuite  {
     assert(result === List( ('a', 4), ('b', 5) ))
   }
 
+  test("wordOccurrences: ignores case") {
+    val result = wordOccurrences("aaAA")
+
+    assert(result === List(('a', 4)))
+  }
+
+
 
 /*
   test("wordOccurrences: abcd") {

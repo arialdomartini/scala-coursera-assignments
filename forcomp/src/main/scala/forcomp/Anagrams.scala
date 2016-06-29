@@ -32,7 +32,7 @@ object Anagrams {
    *  Note: you must use `groupBy` to implement this method!
    */
   def wordOccurrences(w: Word): Occurrences = {
-    stringToChars(w).
+    stringToChars(w.toLowerCase).
       groupBy(c => c).
       toList.map{ case (char, list) => (char, list.length) }.
       sortBy{ case (char, _) => char }
