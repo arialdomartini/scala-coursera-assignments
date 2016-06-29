@@ -9,7 +9,40 @@ import Anagrams._
 
 @RunWith(classOf[JUnitRunner])
 class AnagramsSuite extends FunSuite  {
+  test("should convert a string to a list of chars") {
+    val string = "abc"
 
+    val result = stringToChars(string)
+
+    assert(result === List('a', 'b', 'c'))
+  }
+
+  test("wordOccurrences: empty string") {
+    val result = wordOccurrences("")
+
+    assert(result === List())
+  }
+
+  test("wordOccurrences: string with a single char") {
+    val result = wordOccurrences("a")
+
+    assert(result === List(('a', 1)))
+  }
+
+  test("wordOccurrences: string with a repetition of a single char") {
+    val result = wordOccurrences("aaaa")
+
+    assert(result === List(('a', 4)))
+  }
+
+  test("wordOccurrences: string with multiple chars, sorted by the characters in an ascending order") {
+    val result = wordOccurrences("bbaaaabbb")
+
+    assert(result === List( ('a', 4), ('b', 5) ))
+  }
+
+
+/*
   test("wordOccurrences: abcd") {
     assert(wordOccurrences("abcd") === List(('a', 1), ('b', 1), ('c', 1), ('d', 1)))
   }
@@ -99,5 +132,5 @@ class AnagramsSuite extends FunSuite  {
     )
     assert(sentenceAnagrams(sentence).toSet === anas.toSet)
   }
-
+*/
 }

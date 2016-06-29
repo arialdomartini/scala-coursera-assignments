@@ -3,10 +3,7 @@ package forcomp
 
 object Anagrams {
 
-  /** A word is simply a `String`. */
   type Word = String
-
-  /** A sentence is a `List` of words. */
   type Sentence = List[Word]
 
   /** `Occurrences` is a `List` of pairs of characters and positive integers saying
@@ -34,7 +31,14 @@ object Anagrams {
    *
    *  Note: you must use `groupBy` to implement this method!
    */
-  def wordOccurrences(w: Word): Occurrences = ???
+  def wordOccurrences(w: Word): Occurrences = {
+    stringToChars(w).
+      groupBy(c => c).
+      toList.map{ case (char, list) => (char, list.length) }.
+      sortBy{ case (char, _) => char }
+  }
+
+  def stringToChars(string: String): List[Char] = string.toList
 
   /** Converts a sentence into its character occurrence list. */
   def sentenceOccurrences(s: Sentence): Occurrences = ???
